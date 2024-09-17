@@ -12,7 +12,7 @@
 }
 
 body{
-    background: url(wallpeper2.png);
+    background: url(/sorce/wallpeper/wallpeper2.png);
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
