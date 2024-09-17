@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
         fetch(`http://localhost:8080/customer/username/${username}`)
             .then(response => {
                 if (!response.ok) {
+                    alert("Username Wrong")
                     throw new Error('Network response was not ok');
                 }
                 return response.json();
@@ -23,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function () {
             .then(data => {
                 console.log('Customer data:', data);
 
-                 if (data.customer_password == password) {
-                   alert("login Successful") 
+                if (data.customer_password == password) {
+                    alert("login Successful")
                 }
                 else {
                     alert("wrong password")
@@ -62,33 +63,54 @@ document.addEventListener('DOMContentLoaded', function () {
             customer_password: password
         };
 
-        
-    
+        fetch(`http://localhost:8080/customer/username/${username}`)
+            .then(response => {
+                if (!response.ok) {
+                    fetch('http://localhost:8080/customer/create', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data) // แปลงข้อมูลเป็น JSON
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Network response was not ok');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // แสดงข้อมูลที่ได้รับจากเซิร์ฟเวอร์
+                            alert('Customer created successfully!');
+                            document.getElementById('re1').value = '';
+                            document.getElementById('re2').value = '';
+                            document.getElementById('re3').value = '';
+                            document.getElementById('re4').value = '';
+                            login()
+                            console.log(data);
+                        })
+                        .catch(error => {
+                            console.error('There was a problem with the fetch operation:', error);
+                        });
+
+                }
+                else {
+                    alert("This username is already in use");
+                    document.getElementById('re2').value = '';
+
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+
 
         // ส่งคำขอแบบ POST พร้อมข้อมูล JSON
-        fetch('http://localhost:8080/customer/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data) // แปลงข้อมูลเป็น JSON
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            // แสดงข้อมูลที่ได้รับจากเซิร์ฟเวอร์
-            alert('Customer created successfully!');
-            console.log(data);
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-        });
+
     });
 });
+
 
 
 
