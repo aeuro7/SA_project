@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <meta name="viewport" content="with=device-width,initial-scale = 1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+
+</head>
+<body>
+<div class="wrapper">
+    <nav class="nav">
+        <div class = "nav-logo">
+            <p>SA ©</p>
+        </div>
+        
+        <div class="nav-button">
+            <button class="btn login" id = "loginBtn" onclick="login()">Sign In</button>
+            <button class="btn" id = "registerBtn" onclick="register()">Sign Up</button>
+        </div>
+        <div class="nav-menu-btn">
+            <i class='bx bx-menu' onclick="myMenuFunction()"></i>
+        </div>
+    </nav>
+    <div class="form-box">
+        <!register>
+        <div class="register-container" id="register">
+            <div class="top">
+                <span>Have an account ? <a href="#" onclick="login()">Login</a></span>
+                <header>Sign Up</header>
+
+            </div>
+            <div class="two-forms">
+                <div class="input-box">
+                    <input type="text" class="input-field2" placeholder="Name" id = "re1">
+                    <i class="bx bx-user"></i>
+                </div>
+                <div class="input-box">
+                    <input type="text" class="input-field2" placeholder="Username" id = "re2">
+                    <i class="bx bx-user"></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <input type="text" class="input-field" placeholder="Phone number" id = "re3">
+                <i class="bx bx-envelope"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" class="input-field" placeholder="Password" id = "re4">
+                <i class="bx bx-lock-alt"></i>
+            </div>
+            <div class="input-box">
+                <input type="submit" class="submit" value="Register" id = "Register_button">
+            </div>
+
+        </div>
+        <!Login>
+        <div class="login-container" id="login">
+            <div class="top">
+                <span>Don't have an account ? <a href="#" onclick="register()">Register</a></span>
+                <header>Login</header>
+
+            </div>
+            <div class="input-box">
+                <input type="text" class="input-field" placeholder="Username or Email" id = "in1">
+                <i class="bx bx-envelope"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" class="input-field" placeholder="Password" id = "in2">
+                <i class="bx bx-lock-alt"></i>
+            </div>
+            <div class="input-box">
+                <input type="submit" class="submit" value="Login" id="Login_button">
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<script src="script_style.js"></script>
+<script src="script_controller.js"></script>
+</body>
+</html>
