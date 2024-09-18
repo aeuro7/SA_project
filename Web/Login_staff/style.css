@@ -39,11 +39,19 @@ body{
     background: linear-gradient(rgba(39,39,39,0.15),transparent);
     z-index: 100 ;
 }
-.nav-logo{
+.nav-logo a {
     color: #003f92;
-    font-size: 25px;
+    font-size: 28px;
     font-weight: 600;
+    text-decoration: none; /* ลบเส้นใต้ */
 }
+
+.nav-logo:hover {
+    text-shadow: 0 0 23px rgba(0, 0, 139, 0.5), /* เงาแรก */
+                 0 0 50px rgba(0, 0, 139, 0.2); /* เงาที่สองเพื่อเพิ่มการกระจาย */
+
+}
+
 .nav-menu ul{
     display: flex;
 }
@@ -88,11 +96,24 @@ body{
     transition: background 0.3s ease; /* เอฟเฟกต์การเปลี่ยนแปลงพื้นหลัง */
 }
 
+.btn:hover {
+    text-shadow: 0 0 15px rgba(0, 0, 139, 0.7), /* เงาแรก */
+                 0 0 80px rgba(0, 0, 139, 0.5); /* เงาที่สองเพื่อเพิ่มการกระจาย */
+
+}
+
+
+
 
 .btn.login{
     background: rgba(255,255,255,0.7);
     background: linear-gradient(to right, #002657, #004aad);
     color: white;    
+}
+
+.btn.login:hover{
+    text-shadow: 0 0 15px rgba(255, 255, 255, 1), /* เงาแรก */
+                 0 0 80px rgba(255, 255, 255, 10); /* เงาที่สองเพื่อเพิ่มการกระจาย */    
 }
    
 
@@ -127,6 +148,7 @@ body{
     transition: .5s ease-in-out;
 }
 .top span{
+    
     color: #003f92;
     margin-left: 5px;
     padding: 10px 0;
@@ -135,22 +157,27 @@ body{
 }
 
 .top span a{
+   
     font-weight: 500;
     color: #003f92;
     margin-left: 5px;
+    animation: blinkShadow 3s infinite; /* เพิ่มแอนิเมชัน */
 }
 
-@keyframes gradient-animation {
+@keyframes blinkShadow {
     0% {
-        background-position: 0% 0%;
+        text-shadow: 0 0 15px rgba(0, 0, 139, 0.4), 
+                     0 0 30px rgba(0, 0, 139, 0.5);
     }
     50% {
-        background-position: 100% 0%;
+        text-shadow: none; /* ช่วงกลางของการกระพริบให้หายไป */
     }
     100% {
-        background-position: 0% 0%;
+        text-shadow: 0 0 15px rgba(0, 0, 139, 0.4), 
+                     0 0 30px rgba(0, 0, 139, 0.5);
     }
 }
+
 
 
 header{
@@ -210,7 +237,7 @@ header{
     font-size: 15px;
     font-weight: 500;
     color: #003f92;
-    height: 45px;
+    height: 45px; 
     width: 100%;
     border: none;
     border-radius: 30px;
@@ -223,7 +250,8 @@ header{
 }
 .submit:hover{
     background: rgba(255,255,255,0.5);
-    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    box-shadow: 1px 5px 7px 1px rgba(4, 4, 86, 0.4);
+
 }
 .two-col{
     display: flex;

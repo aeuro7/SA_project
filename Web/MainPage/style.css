@@ -1,0 +1,187 @@
+@font-face {
+    font-family: 'SF';
+    src: url('/sorce/font/SFPRODISPLAYREGULAR.OTF') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'SF_B';
+    src: url('/sorce/font/SFPRODISPLAYBOLD.OTF') format('opentype');
+    font-weight: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-padding-top: 2rem;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+    font-family: "SF";
+}
+:root{
+    --main-color:#002657;
+    --second-color:#003f92    ;
+}
+section{
+    padding: 10px 10%;
+}
+
+*::selection{
+    color: white;
+    background: var(--main-color);
+}
+.logo{
+    font-family: "SF_B";
+    color: #003f92;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+.logo:hover {
+    text-shadow: 0 0 23px rgba(0, 0, 139, 0.5), /* เงาแรก */
+                 0 0 50px rgba(0, 0, 139, 0.2); /* เงาที่สองเพื่อเพิ่มการกระจาย */
+
+}
+
+
+img{
+    width: 120%;
+    margin-left: -120px;
+}
+
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 5% 15px 5%;
+    background:white;
+    box-shadow:0 4px 41px rgb(14 55 54 / 14%);
+    transition: .2s;
+    height: 50px;
+
+}
+
+.logo{
+    align-items: center;
+    display: flex;
+}
+.logo img{
+    width: 40px;
+}
+
+.nav-bar{
+    display: flex;
+    align-items: center;
+}
+
+.nav-bar a{
+    font-size: 15px;
+    padding: 11px 20px;
+    color: var(--second-color);
+    text-transform: uppercase;
+}
+
+.nav-bar:hover{
+    color: var(--main-color);
+
+}
+.nav-bar i{
+    align-items: center;
+    display: flex;
+    font-size: 40px;
+    color: var(--second-color);
+
+}
+
+.bx bx-user-circle{
+    scale: 30%;
+}
+
+.nav-bar ul li{
+    list-style-type: none;
+}
+.nav-bar ul li .link{
+    text-decoration: none;
+    padding-bottom: 15px;
+    color: rgb(255, 237, 237);
+    margin: 25px;
+}
+
+.link:hover, .active{
+    border-bottom: 3px solid #003f92;
+    transition: .2s ease-out;
+}
+#menu-icon{
+    font-size: 14px;
+    z-index: 1001;
+    cursor: pointer;
+    display: none;
+}
+
+.home{
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: url(/sorce/wallpeper/wallpeper3.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    gap: 1rem;
+    
+}
+
+.home-text{
+    flex: 1 1 17rem;
+}
+
+.home-img{
+    flex: 1 1 17rem;
+}
+
+
+.home-text span{
+    margin-left: 80px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--second-color);
+}
+
+.home-text h1{
+    margin-top: 15px;
+    font-size: 40px;
+    color: var(--main-color);
+}
+
+.home-text h2{
+    font-size: 1rem;
+    font-weight: 100;
+    text-transform: capitalize;
+    margin-top: 15px;
+    color:var(--second-color);
+    font-family: "SF";
+    margin-bottom: 30px;
+}
+
+.btn{
+    padding: 7px 100px;
+    margin-left: 10px;
+    margin-top: 100px;
+    border: 2px solid var(--second-color);
+    border-radius: 40px;
+    color: var(--second-color);
+    font-weight: 500;
+}
+
+.btn:hover{
+    color:white;
+    background: linear-gradient(to right, #002657, #004aad);
+}
