@@ -109,12 +109,11 @@ func UpdateCustomer(c *fiber.Ctx) error {
 		return err
 	}
   
-	// Update product in the database
 	_, err := db.Exec("UPDATE public.customer SET customer_id= $1, customer_name= $2, customer_phone= $3, customer_status= $4, customer_username= $5, customer_password= $6 WHERE customer_id = $7;",p.CustomerID,p.CustomerName,p.CustomerPhone,p.CustomerStatus,p.CustomerUsername,p.CustomerPassword,id)
 	if err != nil {
 	  return err
 	}
-  	return c.SendString("update change!")
+  	return c.JSON(p)
   }
 
 

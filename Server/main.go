@@ -52,6 +52,7 @@ func main() {
   app.Put("/customer/updatepassword/:id",UpdatePassword)
   app.Put("/customer/ban/:username",BanCustomer)
   app.Put("/customer/unban/:username",UnBanCustomer)
+  app.Put("/customer/update/:id",UpdateCustomer)
   
   //staff
   app.Get("/staff/username/:username",GetStaffByusername)
