@@ -48,7 +48,8 @@ func main() {
   app.Get("/customer/username/:username",GetCustomerByusername)
   app.Get("/customer/id/:id",GetCustomerByID)
   app.Post("/customer/create",CreateCustomer) 
-  app.Put("/customer/updatepassword/:username/:password",UpdateCustomer)
+  app.Put("/customer/updatepassword/:username/:password",UpdatePassword)
+  app.Put("/customer/updatepassword/:id",UpdatePassword)
   app.Put("/customer/ban/:username",BanCustomer)
   app.Put("/customer/unban/:username",UnBanCustomer)
   

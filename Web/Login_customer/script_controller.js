@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         console.log(username)
         console.log(password)
+        
 
         fetch(`http://localhost:8080/customer/username/${username}`)
             .then(response => {
@@ -22,10 +23,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                console.log('Customer data:', data);
-
                 if (data.customer_password == password) {
-                    alert("login Successful")
+                    setupCustomer(data)
+                    window.location.href = "/Web/MainPage/main.html";
                 }
                 else {
                     alert("wrong password")
@@ -109,6 +109,27 @@ document.addEventListener('DOMContentLoaded', function () {
         // ส่งคำขอแบบ POST พร้อมข้อมูล JSON
 
     });
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // อ่านข้อมูลจาก sessionStorage
+    const CustomerID = sessionStorage.getItem('CustomerID');
+    const CustomerName = sessionStorage.getItem('CustomerName');
+    const CustomerPhone = sessionStorage.getItem('CustomerPhone');
+    const CustomerStatus = sessionStorage.getItem('CustomerStatus');
+    const CustomerUsername = sessionStorage.getItem('CustomerUsername');
+    const CustomerPassword = sessionStorage.getItem('CustomerPassword');
+
+    console.log("Customer Information in main.js:");
+    console.log("ID:", CustomerID);
+    console.log("Name:", CustomerName);
+    console.log("Phone:", CustomerPhone);
+    console.log("Status:", CustomerStatus);
+    console.log("Username:", CustomerUsername);
+    console.log("Password:", CustomerPassword);
+
+
 });
 
 

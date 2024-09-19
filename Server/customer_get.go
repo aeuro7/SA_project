@@ -86,7 +86,7 @@ func CreateCustomer(c *fiber.Ctx) error {
 }
 
 
-func UpdateCustomer(c *fiber.Ctx) error {
+func UpdatePassword(c *fiber.Ctx) error {
 	username := c.Params("username")
 	password := c.Params("password")
   
@@ -96,6 +96,25 @@ func UpdateCustomer(c *fiber.Ctx) error {
 	  return err
 	}
   	return c.SendString("password change!")
+  }
+
+
+func UpdateCustomer(c *fiber.Ctx) error {
+	id, err1 := strconv.Atoi(c.Params("id"))
+	if err1 != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+	p := new(Customer)
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
+  
+	// Update product in the database
+	_, err := db.Exec("UPDATE public.customer SET customer_id= $1, customer_name= $2, customer_phone= $3, customer_status= $4, customer_username= $5, customer_password= $6 WHERE customer_id = $7;",p.CustomerID,p.CustomerName,p.CustomerPhone,p.CustomerStatus,p.CustomerUsername,p.CustomerPassword,id)
+	if err != nil {
+	  return err
+	}
+  	return c.SendString("update change!")
   }
 
 
