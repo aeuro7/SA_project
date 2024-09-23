@@ -1,9 +1,9 @@
-function myMenuFunction(){
-    var i =document.getElementById("navMenu");
+function myMenuFunction() {
+    var i = document.getElementById("navMenu");
 
-    if(i.className == "nav-menu"){
+    if (i.className == "nav-menu") {
         i.className += " responsive";
-    } else{
+    } else {
         i.className = "nav-menu";
     }
 }
@@ -36,13 +36,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // เพิ่ม event listener สำหรับปุ่ม "Edit"
-document.getElementById('editButton').addEventListener('click', function() {
+document.getElementById('editButton').addEventListener('click', function () {
     var inputs = document.querySelectorAll('#customerInfo input');
     var isReadonly = inputs[1].hasAttribute('readonly'); // ตรวจสอบ readonly จาก input แรก
 
-    inputs.forEach(function(input) {
+    inputs.forEach(function (input) {
         // ห้ามแก้ customerID และ customerStatus
-        if (input.id !== 'customerID' ) {
+        if (input.id !== 'customerID') {
             if (isReadonly) {
                 input.removeAttribute('readonly');
             } else {
@@ -55,20 +55,76 @@ document.getElementById('editButton').addEventListener('click', function() {
     this.textContent = isReadonly ? 'Cancel' : 'Edit';
 });
 
-document.getElementById('saveButton').addEventListener('click', function() {
-    // Logic to save changes
-    console.log('Save button clicked');
+document.getElementById('saveButton').addEventListener('click', function () {
+    var name = document.getElementById('customerName').value;
+    var username = document.getElementById('customerUsername').value;
+    var phone = document.getElementById('customerPhone').value;
+    var password = document.getElementById('customerPassword').value;
+
+    // Validate that the fields are not empty
+    if (!username || !password || !name || !phone) {
+        alert('Please enter all fields');
+        return;
+    }
+    const CustomerIDString = sessionStorage.getItem('CustomerID'); // ดึงค่าจาก sessionStorage
+
+    // หรือใช้ Number()
+    const CustomerID = Number(CustomerIDString); // แปลงเป็นจำนวนเต็มเช่นกัน
+    const CustomerStatus = sessionStorage.getItem('CustomerStatus');
+
+    // สร้างอ็อบเจ็กต์ JSON
+    var data = {
+        customer_id: CustomerID,
+        customer_name: name,
+        customer_username: username,
+        customer_phone: phone,
+        customer_status: CustomerStatus,
+        customer_password: password
+    };
+
+
+    fetch(`http://localhost:8080/customer/update/${CustomerID}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data) // แปลงข้อมูลเป็น JSON
+    })
+        .then(response => {
+            // ตรวจสอบ Content-Type ของการตอบสนองจากเซิร์ฟเวอร์
+            const contentType = response.headers.get('Content-Type');
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            // หากเซิร์ฟเวอร์ส่ง JSON ให้ใช้ response.json()
+            if (contentType && contentType.includes('application/json')) {
+                return response.json();
+            } else {
+                // หากเซิร์ฟเวอร์ส่งข้อความธรรมดา ให้ใช้ response.text()
+                return response.text();
+            }
+        })
+        .then(data => {
+            // แสดงข้อมูลที่ได้รับจากเซิร์ฟเวอร์
+            if (typeof data === 'string') {
+                alert(data); // ข้อความธรรมดา
+            } else {
+                alert('Update successfully!');
+                console.log(data); // JSON ที่ได้รับ
+                setupCustomer(data)
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            alert('Update failed!');
+        });
+
+
+
+    // ส่งคำขอแบบ POST พร้อมข้อมูล JSON
+
 });
 
 
-
-document.getElementById('Logout').addEventListener('click', function (event) {
-    event.preventDefault();
-    sessionStorage.clear();
-    window.location.href = '/Web/Login_customer/login.html';
-});
-
-document.getElementById('gomain').addEventListener('click', function (event) {
-    event.preventDefault();
-    window.location.href = '/Web/MainPage/main.html';
-});

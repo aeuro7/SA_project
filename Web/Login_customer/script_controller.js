@@ -22,10 +22,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
                 return response.json();
             })
+
+            
+
             .then(data => {
-                if (data.customer_password == password) {
+
+                if (data.customer_password == password && data.customer_status != "Ban") {
                     setupCustomer(data)
                     window.location.href = "/Web/MainPage/main.html";
+                }
+                else if (data.customer_status == "Ban"){
+                    alert("You are Ban!!!")
                 }
                 else {
                     alert("wrong password")

@@ -28,13 +28,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
 });
 
-document.getElementById('Logout').addEventListener('click', function (event) {
-    event.preventDefault();
-    sessionStorage.clear();
-    window.location.href = '/Web/Login_customer/login.html';
-});
-
-document.getElementById('MyProfile').addEventListener('click', function (event) {
-    event.preventDefault();
-    window.location.href = '/Web/Profile/profile.html';
-});

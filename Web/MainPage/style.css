@@ -9,6 +9,7 @@
     font-weight: normal;
 }
 
+
 *{
     margin: 0;
     padding: 0;
@@ -26,6 +27,7 @@
 section{
     padding: 10px 10%;
 }
+
 
 *::selection{
     color: white;
