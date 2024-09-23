@@ -1,9 +1,9 @@
-package main	
+package main
 
 import (
 	"database/sql"
-	"strconv"
 	"fmt"
+	"strconv"
 	"github.com/gofiber/fiber/v2"
 	_ "github.com/lib/pq"
 )

@@ -62,6 +62,14 @@ func main() {
   app.Put("/staff/ban/:username",BanStaff)
   app.Put("/staff/unban/:username",UnBanStaff)
 
+  app.Get("/product/id/:id", GetProductByID)
+	app.Get("/products", GetProducts)
+	app.Get("/products/active", GetProductsActive)
+	app.Get("/products/inactive", GetProductsinActive)
+	app.Post("/product/create", CreateProduct)
+	app.Put("/product/update/:id", UpdateProduct)
+	app.Delete("/product/inactive/:id", inActiveProduct)
+	app.Put("/product/active/:id", ActiveProduct)
   
   app.Get("/hi",func(c *fiber.Ctx) error { return c.SendString("hi")})
 
