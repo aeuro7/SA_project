@@ -9,6 +9,16 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             const tbody = document.querySelector('tbody');
             data.forEach((product, index) => {
+                // ตรวจสอบว่าถึงเวลาเริ่มประมูลหรือยัง
+                var currentTime = new Date();
+                currentTime.setHours(currentTime.getHours() + 7); // เพิ่ม 7 ชั่วโมงให้กับเวลาปัจจุบัน
+                var bidStartTime = new Date(product.product_bid_start_time);
+                
+                if (bidStartTime > currentTime) {
+                    // ถ้ายังไม่ถึงเวลาเริ่มประมูล ให้ข้ามไปยัง product ถัดไป
+                    return;
+                }
+
                 // Create a new row
                 const row = document.createElement('tr');
 
@@ -55,8 +65,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Function to calculate and display time remaining
 function timeRemaining(endDate) {
-    const now = new Date();
-    const timeDiff = endDate - now;
+    const now = new Date(); // เวลาปัจจุบันในเขตเวลาของผู้ใช้
+    const end = new Date(endDate); // แปลงเวลาจาก UTC ที่รับมา
+
+    // เพิ่มเวลา 7 ชั่วโมงสำหรับเวลาประเทศไทย
+    end.setHours(end.getHours() - 7); 
+
+    const timeDiff = end - now; // คำนวณความต่างของเวลา
 
     if (timeDiff <= 0) {
         return 'Expired';
