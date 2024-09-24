@@ -1,0 +1,217 @@
+@font-face {
+    font-family: 'SF';
+    src: url('/sorce/font/SFPRODISPLAYREGULAR.OTF') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'SF_B';
+    src: url('/sorce/font/SFPRODISPLAYBOLD.OTF') format('opentype');
+    font-weight: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-padding-top: 2rem;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+    font-family: "SF";
+}
+:root{
+    --main-color:#002657;
+    --second-color:#003f92    ;
+}
+section{
+    padding: 10px 10%;
+}
+
+*::selection{
+    color: white;
+    background: var(--main-color);
+}
+.logo{
+    font-family: "SF_B";
+    color: #003f92;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+.logo:hover {
+    text-shadow: 0 0 23px rgba(0, 0, 139, 0.5), /* เงาแรก */
+                 0 0 50px rgba(0, 0, 139, 0.2); /* เงาที่สองเพื่อเพิ่มการกระจาย */
+
+}
+
+
+img{
+    width: 120%;
+    margin-left: -120px;
+}
+
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 5% 15px 5%;
+    background:white;
+    box-shadow:0 4px 41px rgb(14 55 54 / 14%);
+    transition: .2s;
+    height: 50px;
+
+}
+
+.logo{
+    align-items: center;
+    display: flex;
+    cursor: pointer; /* เปลี่ยน cursor เป็น pointer เมื่อ hover */
+
+}
+
+.logo img{
+    width: 40px;
+}
+
+.nav-bar{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.nav-bar a{
+    font-size: 15px;
+    padding: 11px 20px;
+    color: var(--second-color);
+    text-transform: uppercase;
+}
+
+.nav-bar:hover{
+    color: var(--main-color);
+
+}
+.nav-bar i{
+    align-items: center;
+    display: flex;
+    font-size: 40px;
+    color: var(--second-color);
+
+}
+
+.bx bx-user-circle{
+    scale: 30%;
+}
+
+.nav-bar ul li{
+    list-style-type: none;
+}
+.nav-bar ul li .link{
+    text-decoration: none;
+    padding-bottom: 15px;
+    color: rgb(255, 237, 237);
+    margin: 25px;
+}
+
+.link:hover, .active{
+    border-bottom: 3px solid #003f92;
+    transition: .2s ease-out;
+}
+#menu-icon{
+    font-size: 14px;
+    z-index: 1001;
+    cursor: pointer;
+    display: none;
+}
+
+/* body ----------------------------------------------------------------- */
+
+.info {
+    margin-left: 20px;
+    font-family: "SF";
+    color: #002657;
+    font-size: 20px;
+    /* background-color: red; */
+    /* เพิ่มการจัดตำแหน่งกลางให้กับลูกๆ */
+    text-align: center;
+}
+
+.info p {
+    margin: 15px 0;
+    display: flex;
+    align-items: center; /* จัดแนวกลางในแนวตั้ง */
+    justify-content: center; /* จัดแนวกลางในแนวนอน */
+}
+
+.info .label {
+    font-weight: bold;
+    margin-right: 10px;
+    width: 150px; /* กำหนดความกว้างของ label */
+}
+
+.info input {
+    border: 1px solid #ccc;
+    border-radius: 40px;
+    padding: 8px;
+    width: 300px; /* ทำให้ input ขยายเต็มความกว้างของพ่อแม่ */
+    box-sizing: border-box;
+    padding-left: 16px; /* เพิ่มระยะห่างทางซ้าย */
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+}
+
+.info input:read-only {
+    background-color: #e9e9e9;
+    color: #666;
+}
+
+.info select {
+    border: 1px solid #ccc;
+    border-radius: 40px;
+    padding: 8px;
+    width: 300px; /* ขยายให้กว้างขึ้นเพื่อให้ขนาดใกล้เคียงกับ input */
+    box-sizing: border-box;
+    padding-left: 16px; /* เพิ่มระยะห่างทางซ้าย */
+    font-size: 14px;
+    background-color: #fff;
+    color: #333;
+    -webkit-appearance: none; /* ลบลูกศรในบาง browser */
+    -moz-appearance: none; /* ลบลูกศรใน Firefox */
+    appearance: none; /* ลบลูกศรใน browser สมัยใหม่ */
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5"><path fill="%23333" d="M2 0L0 2h4z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 12px;
+}
+
+.info select:focus {
+    outline: none;
+    border-color: var(--main-color);
+}
+
+.info select option {
+    padding: 8px;
+}
+
+
+.btn{
+    padding: 7px 100px;
+    margin-left: 30px;
+    margin-top: 40px;
+    border: 2px solid var(--second-color);
+    border-radius: 40px;
+    color: var(--second-color);
+    font-weight: 500;
+}
+
+.btn:hover{
+    color:white;
+    background: linear-gradient(to right, #002657, #004aad);
+}

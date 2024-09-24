@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 if (data.staff_password == password && data.staff_status != "Ban") {
                     setupStaff(data) 
-                    window.location.href = "/Web/MainPage/main.html";
+                    window.location.href = '/Web/WebStaff/tablestaff/maintable.html';
                 }
                 else if (data.staff_status == "Ban"){
                     alert("You are Ban!!!")
