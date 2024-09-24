@@ -70,6 +70,21 @@ func main() {
 	app.Put("/product/update/:id", UpdateProduct)
 	app.Delete("/product/inactive/:id", inActiveProduct)
 	app.Put("/product/active/:id", ActiveProduct)
+
+  app.Get("/pic/product/:id", GetPic_byProductID)
+  app.Get("/pic/product/all/:id", GetAllPic_byProductID)
+  app.Post("/pic/create", CreatePic)
+  app.Delete("/pic/delete/id/:id", DeletePic)
+
+  app.Get("/order/:id", GetOrderByID)
+  app.Post("/order/create", CreateOrder)
+  app.Put("/order/:id/status/:status", UpdateOrderStatus)
+
+  app.Get("/receipt/:id", GetReceiptByID)
+  app.Post("/receipt/create", CreateReceipt)
+  app.Put("/receipt/:id/status/:status", UpdateReceiptStatus)
+	
+
   
   app.Get("/hi",func(c *fiber.Ctx) error { return c.SendString("hi")})
 

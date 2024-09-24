@@ -82,6 +82,8 @@ header{
 .nav-bar{
     display: flex;
     align-items: center;
+    cursor: pointer;
+
 }
 
 .nav-bar a{

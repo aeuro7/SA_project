@@ -12,18 +12,37 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Create a new row
                 const row = document.createElement('tr');
 
-                // Insert columns into the row
+                // Set default row structure without image yet
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td><img src="${"https://m.dev-almanea.com/media/webps/jpg/media/catalog/product/i/p/iphone_16_pro_natural_titanium_hero_vertical_screen__wwen_4.webp"}" ></td>
+                    <td><img src="" id="img-${product.product_id}"></td>
                     <td>${product.product_name}</td>
                     <td id="description">${product.product_description}</td>
                     <td id="bid">${product.product_min} THB</td>
                     <td class="countdown" data-datetime="${product.product_bid_end_time}"></td>
                 `;
 
+                // Add click event listener to the row
+                row.addEventListener('click', () => {
+                    // Save selected product to session storage
+                    sessionStorage.setItem('selectedProduct', JSON.stringify(product));    
+                    // Redirect to the details page (adjust the URL accordingly)
+                    window.location.href = '/Web/Auction/test.html';
+                });
+
                 // Append the row to the table body
                 tbody.appendChild(row);
+
+                // Fetch and update the image for the product
+                getPic(product.product_id).then(picLink => {
+                    const imgElement = document.getElementById(`img-${product.product_id}`);
+                    if (picLink) {
+                        imgElement.src = picLink;
+                    } 
+                    else {
+                        imgElement.src = null;
+                    }
+                });
             });
 
             updateCountdown(); // Initial update
@@ -57,4 +76,26 @@ function updateCountdown() {
         const datetime = new Date(cell.getAttribute('data-datetime'));
         cell.textContent = timeRemaining(datetime);
     });
+}
+
+// Function to get picture link by product ID (returning a Promise)
+function getPic(product_id) {
+    return fetch(`http://localhost:8080/pic/product/${product_id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                return ""; // Return empty string if there's an error
+            } else {
+                return data.pic_link; // Return the picture link
+            }
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            return ""; // Return empty string on error
+        });
 }

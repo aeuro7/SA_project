@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(password)
         
 
-        fetch(`http://localhost:8080/customer/username/${username}`)
+        fetch(`http://localhost:8080/staff/username/${username}`)
             .then(response => {
                 if (!response.ok) {
                     alert("Username Wrong")
@@ -27,11 +27,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
             .then(data => {
 
-                if (data.customer_password == password && data.customer_status != "Ban") {
-                    setupCustomer(data)
+                if (data.staff_password == password && data.staff_status != "Ban") {
+                    setupStaff(data) 
                     window.location.href = "/Web/MainPage/main.html";
                 }
-                else if (data.customer_status == "Ban"){
+                else if (data.staff_status == "Ban"){
                     alert("You are Ban!!!")
                 }
                 else {
@@ -63,17 +63,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // สร้างอ็อบเจ็กต์ JSON
         var data = {
-            customer_name: name,
-            customer_username: username,
-            customer_phone: phone,
-            customer_status: "Normal",
-            customer_password: password
+            staff_name: name,
+            staff_username: username,
+            staff_phone: phone,
+            staff_status: "Normal",
+            staff_password: password
         };
 
-        fetch(`http://localhost:8080/customer/username/${username}`)
+        fetch(`http://localhost:8080/staff/username/${username}`)
             .then(response => {
                 if (!response.ok) {
-                    fetch('http://localhost:8080/customer/create', {
+                    fetch('http://localhost:8080/staff/create', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -135,6 +135,21 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log("Status:", CustomerStatus);
     console.log("Username:", CustomerUsername);
     console.log("Password:", CustomerPassword);
+
+    const StaffID = sessionStorage.getItem('StaffID');
+    const StaffName = sessionStorage.getItem('StaffName');
+    const StaffPhone = sessionStorage.getItem('StaffPhone');
+    const StaffStatus = sessionStorage.getItem('StaffStatus');
+    const StaffUsername = sessionStorage.getItem('StaffUsername');
+    const StaffPassword = sessionStorage.getItem('StaffPassword');
+
+    console.log("Staff Information in main.js:");
+    console.log("ID:", StaffID);
+    console.log("Name:", StaffName);
+    console.log("Phone:", StaffPhone);
+    console.log("Status:", StaffStatus);
+    console.log("Username:", StaffUsername);
+    console.log("Password:", StaffPassword);
 
 
 });
