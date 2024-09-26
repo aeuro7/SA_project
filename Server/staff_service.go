@@ -87,15 +87,20 @@ func CreateStaff(c *fiber.Ctx) error {
 
 
 func UpdateStaff(c *fiber.Ctx) error {
-	username := c.Params("username")
-	password := c.Params("password")
+	id, err1 := strconv.Atoi(c.Params("id"))
+	if err1 != nil {
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+	p := new(Staff)
+	if err := c.BodyParser(p); err != nil {
+		return err
+	}
   
-	// Update product in the database
-	_, err := db.Exec("UPDATE public.staff SET staff_password = $1 WHERE staff_username = $2;", password, username)
+	_, err := db.Exec("UPDATE public.staff SET staff_id= $1, staff_name= $2, staff_phone= $3, staff_status= $4, staff_username= $5, staff_password= $6 WHERE staff_id = $7;",p.StaffID,p.StaffName,p.StaffPhone,p.StaffStatus,p.StaffUsername,p.StaffPassword,id)
 	if err != nil {
 	  return err
 	}
-  	return c.SendString("password change!")
+  	return c.JSON(p)
   }
 
 

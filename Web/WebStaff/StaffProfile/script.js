@@ -10,39 +10,39 @@ function myMenuFunction() {
 
 document.addEventListener('DOMContentLoaded', function () {
     // ดึงข้อมูลจาก sessionStorage
-    const CustomerID = sessionStorage.getItem('CustomerID');
-    const CustomerName = sessionStorage.getItem('CustomerName');
-    const CustomerPhone = sessionStorage.getItem('CustomerPhone');
-    const CustomerStatus = sessionStorage.getItem('CustomerStatus');
-    const CustomerUsername = sessionStorage.getItem('CustomerUsername');
-    const CustomerPassword = sessionStorage.getItem('CustomerPassword');
+    const StaffID = sessionStorage.getItem('StaffID');
+    const StaffName = sessionStorage.getItem('StaffName');
+    const StaffPhone = sessionStorage.getItem('StaffPhone');
+    const StaffStatus = sessionStorage.getItem('StaffStatus');
+    const StaffUsername = sessionStorage.getItem('StaffUsername');
+    const StaffPassword = sessionStorage.getItem('StaffPassword');
 
     // แสดงข้อมูลในช่อง input
-    document.getElementById('customerID').value = CustomerID;
-    document.getElementById('customerName').value = CustomerName;
-    document.getElementById('customerPhone').value = CustomerPhone;
-    document.getElementById('customerUsername').value = CustomerUsername;
-    document.getElementById('customerPassword').value = CustomerPassword;
+    document.getElementById('StaffID').value = StaffID;
+    document.getElementById('StaffName').value = StaffName;
+    document.getElementById('StaffPhone').value = StaffPhone;
+    document.getElementById('StaffUsername').value = StaffUsername;
+    document.getElementById('StaffPassword').value = StaffPassword;
 
     // สำหรับการตรวจสอบข้อมูลใน console
-    console.log("Customer Information in main.js:");
-    console.log("ID:", CustomerID);
-    console.log("Name:", CustomerName);
-    console.log("Phone:", CustomerPhone);
-    console.log("Status:", CustomerStatus);
-    console.log("Username:", CustomerUsername);
-    console.log("Password:", CustomerPassword);
+    console.log("Staff Information in main.js:");
+    console.log("ID:", StaffID);
+    console.log("Name:", StaffName);
+    console.log("Phone:", StaffPhone);
+    console.log("Status:", StaffStatus);
+    console.log("Username:", StaffUsername);
+    console.log("Password:", StaffPassword);
 });
 
 
 // เพิ่ม event listener สำหรับปุ่ม "Edit"
 document.getElementById('editButton').addEventListener('click', function () {
-    var inputs = document.querySelectorAll('#customerInfo input');
+    var inputs = document.querySelectorAll('#staffInfo input');
     var isReadonly = inputs[1].hasAttribute('readonly'); // ตรวจสอบ readonly จาก input แรก
 
     inputs.forEach(function (input) {
         // ห้ามแก้ customerID และ customerStatus
-        if (input.id !== 'customerID') {
+        if (input.id !== 'StaffID') {
             if (isReadonly) {
                 input.removeAttribute('readonly');
             } else {
@@ -56,34 +56,34 @@ document.getElementById('editButton').addEventListener('click', function () {
 });
 
 document.getElementById('saveButton').addEventListener('click', function () {
-    var name = document.getElementById('customerName').value;
-    var username = document.getElementById('customerUsername').value;
-    var phone = document.getElementById('customerPhone').value;
-    var password = document.getElementById('customerPassword').value;
+    var name = document.getElementById('StaffName').value;
+    var username = document.getElementById('StaffUsername').value;
+    var phone = document.getElementById('StaffPhone').value;
+    var password = document.getElementById('StaffPassword').value;
 
     // Validate that the fields are not empty
     if (!username || !password || !name || !phone) {
         alert('Please enter all fields');
         return;
     }
-    const CustomerIDString = sessionStorage.getItem('CustomerID'); // ดึงค่าจาก sessionStorage
+    const StaffIDString = sessionStorage.getItem('StaffID'); // ดึงค่าจาก sessionStorage
 
     // หรือใช้ Number()
-    const CustomerID = Number(CustomerIDString); // แปลงเป็นจำนวนเต็มเช่นกัน
-    const CustomerStatus = sessionStorage.getItem('CustomerStatus');
+    const StaffID = Number(StaffIDString); // แปลงเป็นจำนวนเต็มเช่นกัน
+    const StaffStatus = sessionStorage.getItem('StaffStatus');
 
     // สร้างอ็อบเจ็กต์ JSON
     var data = {
-        customer_id: CustomerID,
-        customer_name: name,
-        customer_username: username,
-        customer_phone: phone,
-        customer_status: CustomerStatus,
-        customer_password: password
+        staff_id: StaffID,
+        staff_name: name,
+        staff_username: username,
+        staff_phone: phone,
+        staff_status: StaffStatus,
+        staff_password: password
     };
 
 
-    fetch(`http://localhost:8080/customer/update/${CustomerID}`, {
+    fetch(`http://localhost:8080/staff/update/${StaffID}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ document.getElementById('saveButton').addEventListener('click', function () {
             } else {
                 alert('Update successfully!');
                 console.log(data); // JSON ที่ได้รับ
-                setupCustomer(data)
+                setupStaff(data)
             }
         })
         .catch(error => {
@@ -123,7 +123,7 @@ document.getElementById('saveButton').addEventListener('click', function () {
 
 
 
-    // ส่งคำขอแบบ POST พร้อมข้อมูล JSON
 
 });
+
 

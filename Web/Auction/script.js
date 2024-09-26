@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', function () {
     fetch(`http://localhost:8080/products/active`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
         .then(data => {
             const tbody = document.querySelector('tbody');
             data.forEach((product, index) => {
@@ -19,12 +19,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     return;
                 }
 
+                var bidEndtime = new Date(product.product_bid_end_time);
+
+                if (currentTime > bidEndtime) {
+                    // ถ้าเวลาปัจจุบันเกินเวลาสิ้นสุดประมูล ให้ข้ามไปยัง product ถัดไป
+                    return;
+                }
+
                 // Create a new row
                 const row = document.createElement('tr');
 
                 // Set default row structure without image yet
                 row.innerHTML = `
-                    <td>${index + 1}</td>
+                    <td>${index}</td>
                     <td><img src="" id="img-${product.product_id}"></td>
                     <td>${product.product_name}</td>
                     <td id="description">${product.product_description}</td>

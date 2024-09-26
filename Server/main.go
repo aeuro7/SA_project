@@ -48,8 +48,6 @@ func main() {
   app.Get("/customer/username/:username",GetCustomerByusername)
   app.Get("/customer/id/:id",GetCustomerByID)
   app.Post("/customer/create",CreateCustomer) 
-  app.Put("/customer/updatepassword/:username/:password",UpdatePassword)
-  app.Put("/customer/updatepassword/:id",UpdatePassword)
   app.Put("/customer/ban/:username",BanCustomer)
   app.Put("/customer/unban/:username",UnBanCustomer)
   app.Put("/customer/update/:id",UpdateCustomer)
@@ -58,9 +56,10 @@ func main() {
   app.Get("/staff/username/:username",GetStaffByusername)
   app.Get("/staff/id/:id",GetStaffByID)
   app.Post("/staff/create",CreateStaff) 
-  app.Put("/staff/updatepassword/:username/:password",UpdateStaff)
   app.Put("/staff/ban/:username",BanStaff)
   app.Put("/staff/unban/:username",UnBanStaff)
+  app.Put("/staff/update/:id",UpdateStaff)
+
 
   app.Get("/product/id/:id", GetProductByID)
 	app.Get("/products", GetProducts)
