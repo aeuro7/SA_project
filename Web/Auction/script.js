@@ -28,10 +28,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Create a new row
                 const row = document.createElement('tr');
+                // <td id="description">${product.product_description}</td>
 
                 // Set default row structure without image yet
                 row.innerHTML = `
-                    <td>${index}</td>
+                    <td>${index + 1}</td>
                     <td><img src="" id="img-${product.product_id}"></td>
                     <td>${product.product_name}</td>
                     <td id="description">${product.product_description}</td>
@@ -89,7 +90,7 @@ function timeRemaining(endDate) {
     const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-    return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    return `${days} Day ${hours}:${minutes}:${seconds}s`;
 }
 
 // Function to update the countdown for all elements with the 'countdown' class

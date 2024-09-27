@@ -31,7 +31,7 @@ func CreateProduct(c *fiber.Ctx) error {
 func GetProducts(c *fiber.Ctx) error {
 	products, err := db.Query(`
 		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end
-		FROM public.products`)
+		FROM public.products order by product_end`)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not retrieve products"})
 	}

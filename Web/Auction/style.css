@@ -100,7 +100,7 @@ thead th{
 }
 
 th:nth-child(1), td:nth-child(1) {
-    width: 1%; 
+    width: 5%; 
     text-align: center;
     padding: 0.5rem;
 }
@@ -110,7 +110,7 @@ th:nth-child(2), td:nth-child(2) {
     padding: 1rem;
 }
 th:nth-child(3), td:nth-child(3) {
-    width: 1%; 
+    width: 5%; 
     text-align: center;
     padding: 1rem;
 }
@@ -148,10 +148,14 @@ font-family: "SF_B";}
 #description {
     width: 15%; 
     white-space: normal; 
-    word-wrap: break-word;
+
 }
 
+
+
+
 /* nav-bar ----------------------------------------------------------------- */
+
 .logo{
     font-family: "SF_B";
     color: #003f92;
