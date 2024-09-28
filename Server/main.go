@@ -73,6 +73,7 @@ func main() {
   app.Get("/pic/product/:id", GetPic_byProductID)
   app.Get("/pic/product/all/:id", GetAllPic_byProductID)
   app.Post("/pic/create", CreatePic)
+  app.Put("/pic/update/:id", UpdatePic)
   app.Delete("/pic/delete/id/:id", DeletePic)
 
   app.Get("/order/:id", GetOrderByID)

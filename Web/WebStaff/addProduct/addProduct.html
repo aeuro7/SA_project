@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>CreateProduct</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <header>
+        <a class="logo"><p id = "gomain">SA Project BlueBid ©</p></a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <ul class="nav-bar">
+            <li><a class="link" id=  "AddProduct">AddProduct</a></li>
+            <li><a class="link" id = "Order">Order</a></li>
+            <li><a class="link" id = "MyProfile">MyProfile</a></li>
+            <li><a class="link" id = "Logout">Logout</a></li>
+        </ul>
+    </header>
+
+    <br><br><br><br>
+    <div class="info-container">
+        <img id="imagePreview" src="/sorce/pic/loading.png" alt="Image Preview">
+        <div class="info">
+            <h1>Create Product</h1>
+            <p><span class="label">Staff ID :</span> <input type="text" id="staffID" readonly /></p>
+            <p><span class="label">Product Name :</span> <input type="text" id="productName" /></p>
+            <p><span class="label">Product Description :</span> <input type="text" id="productDescription" /></p>
+            <p><span class="label">Product Min :</span> <input type="text" id="productMin" /></p>
+            <p><span class="label">Product Status :</span> 
+                <select id="productStatus">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </p>
+            <p><span class="label">Bid Start Time :</span> <input type="text" id="bidStartTime" placeholder="YYYY-MM-DD 00:00:00"/></p>
+            <p><span class="label">Bid End Time :</span> <input type="text" id="bidEndTime" placeholder="YYYY-MM-DD 00:00:00"/></p>
+            <p><span class="label">Pic Link :</span> <input type="text" id="piclink" /></p>
+            <div class="bt">
+                <button id="backButton" class="btn">Back</button>
+                <button id="saveButton" class="btn">Save</button>
+            </div>
+        </div>
+    </div>
+    
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+
+    </div>
+
+
+
+
+    <script src="script.js"></script>
+    <script src="link.js"></script>
+
+</body>
+
+</html>

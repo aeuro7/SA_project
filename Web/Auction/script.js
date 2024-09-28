@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
+    myrow = 1;
     fetch(`http://localhost:8080/products/active`)
     .then(response => {
         if (!response.ok) {
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Set default row structure without image yet
                 row.innerHTML = `
-                    <td>${index + 1}</td>
+                    <td>${myrow++}</td>
                     <td><img src="" id="img-${product.product_id}"></td>
                     <td>${product.product_name}</td>
                     <td id="description">${product.product_description}</td>

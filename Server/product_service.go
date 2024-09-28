@@ -2,8 +2,10 @@ package main
 
 import (
 	"euro/models"
-	"github.com/gofiber/fiber/v2"
+	// "fmt"
 	"strconv"
+
+	"github.com/gofiber/fiber/v2"
 )
 
 func CreateProduct(c *fiber.Ctx) error {
@@ -14,18 +16,26 @@ func CreateProduct(c *fiber.Ctx) error {
 		return err
 	}
 
-	_, err1 := db.Exec(`
+	// สร้างตัวแปรเพื่อเก็บ product_id ที่สร้างขึ้น
+	var productID int
+
+	// ใช้คำสั่ง INSERT พร้อม RETURNING เพื่อดึง product_id
+	err := db.QueryRow(`
 		INSERT INTO public.products(
 		staff_id, product_name, product_description, product_min, product_status, product_start, product_end)
-	VALUES ($1, $2, $3, $4, $5, $6, $7);`, 
-		p.StaffID, p.ProductName, p.ProductDescription, p.ProductMin, p.ProductStatus, p.ProductBidStartTime, p.ProductBidEndTime)
+	VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING product_id;`, 
+		p.StaffID, p.ProductName, p.ProductDescription, p.ProductMin, p.ProductStatus, p.ProductBidStartTime, p.ProductBidEndTime).Scan(&productID)
 
-	if err1 != nil {
-		return err1
+	if err != nil {
+		return err
 	}
+
+	// เพิ่ม product_id ลงใน struct ก่อนส่งกลับ
+	p.ProductID = productID
 
 	return c.JSON(p)
 }
+
 
 
 func GetProducts(c *fiber.Ctx) error {

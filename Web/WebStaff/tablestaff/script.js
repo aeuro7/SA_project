@@ -26,9 +26,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Add click event listener to the row
                 row.addEventListener('click', () => {
                     // Save selected product to session storage
-                    sessionStorage.setItem('selectedProduct', JSON.stringify(product));    
-                    // Redirect to the details page (adjust the URL accordingly)
-                    window.location.href = `/Web/WebStaff/editProduct/main.html`;
+                    sessionStorage.setItem('selectedProduct', JSON.stringify(product));
+                    
+                    // Fetch the picLink and store it in session storage
+                    getPic(product.product_id).then(picLink => {
+                        sessionStorage.setItem('selectedPicLink', picLink);
+                        // Redirect to the details page (adjust the URL accordingly)
+                        window.location.href = `/Web/WebStaff/editProduct/main.html`;
+                    });
                 });
 
                 // Append the row to the table body
@@ -41,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         imgElement.src = picLink;
                     } 
                     else {
-                        imgElement.src = null;
+                        imgElement.src = '/sorce/pic/loading.png';  
                     }
                 });
             });

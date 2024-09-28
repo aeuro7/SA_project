@@ -16,7 +16,7 @@ func GetPic_byProductID(c *fiber.Ctx) error {
 	var p models.Pic
 
 	err := db.QueryRow(`
-		SELECT pic_id, product_id, pic_link FROM public.picture where product_id = $1
+		SELECT pic_id, product_id, pic_link FROM public.picture where product_id = $1 order by pic_id
 	`, id).Scan(
 		&p.PicID,
 		&p.ProductID,
@@ -99,4 +99,29 @@ func DeletePic(c *fiber.Ctx) error {
 	return c.JSON(result)
 }
 
+func UpdatePic(c *fiber.Ctx) error {
+	// Get the pic_id from the URL parameters
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid picture ID"})
+	}
+
+	var p models.Pic
+	// Parse the request body to get the new picture link
+	if err := c.BodyParser(&p); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Failed to parse request body"})
+	}
+
+	// Execute the UPDATE SQL query
+	_, err = db.Exec(`
+		UPDATE public.picture SET pic_link = $1 WHERE product_id = $2`,
+		p.PicLink, id)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not update picture"})
+	}
+
+	// Return the updated picture information
+	return c.JSON(p)
+}
 
