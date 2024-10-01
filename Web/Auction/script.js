@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-    myrow = 1;
+    let myrow = 1;
+    
     fetch(`http://localhost:8080/products/active`)
     .then(response => {
         if (!response.ok) {
@@ -7,80 +8,98 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         return response.json();
     })
-        .then(data => {
-            const tbody = document.querySelector('tbody');
-            data.forEach((product, index) => {
-                // ตรวจสอบว่าถึงเวลาเริ่มประมูลหรือยัง
-                var currentTime = new Date();
-                currentTime.setHours(currentTime.getHours() + 7); // เพิ่ม 7 ชั่วโมงให้กับเวลาปัจจุบัน
-                var bidStartTime = new Date(product.product_bid_start_time);
-                
-                if (bidStartTime > currentTime) {
-                    // ถ้ายังไม่ถึงเวลาเริ่มประมูล ให้ข้ามไปยัง product ถัดไป
-                    return;
+    .then(data => {
+        const tbody = document.querySelector('tbody');
+        data.forEach((product, index) => {
+            var currentTime = new Date();
+            currentTime.setHours(currentTime.getHours() + 7); // Adjust to current timezone
+            var bidStartTime = new Date(product.product_bid_start_time);
+            
+            if (bidStartTime > currentTime) {
+                return; // Skip if it's before the bid start time
+            }
+
+            var bidEndtime = new Date(product.product_bid_end_time);
+            if (currentTime > bidEndtime) {
+                return; // Skip if the bid has ended
+            }
+
+            // Create a new row
+            const row = document.createElement('tr');
+
+            row.innerHTML = `
+                <td>${myrow++}</td>
+                <td><img src="${product.product_picture}" id="img-${product.product_id}" alt="Product Image"></td>
+                <td>${product.product_name}</td>
+                <td id="description">${product.product_description}</td>
+                <td id="bid-${product.product_id}">Loading...</td>
+                <td class="countdown" data-datetime="${product.product_bid_end_time}"></td>
+            `;
+
+            // Fetch and display the highest bid for the product
+            getHighestBid(product.product_id).then(bid => {
+                const bidElement = document.getElementById(`bid-${product.product_id}`);
+                if (bid) {
+                    bidElement.textContent = `${bid} THB`;
+                } else {
+                    bidElement.textContent = 'No bid';
                 }
-
-                var bidEndtime = new Date(product.product_bid_end_time);
-
-                if (currentTime > bidEndtime) {
-                    // ถ้าเวลาปัจจุบันเกินเวลาสิ้นสุดประมูล ให้ข้ามไปยัง product ถัดไป
-                    return;
-                }
-
-                // Create a new row
-                const row = document.createElement('tr');
-                // <td id="description">${product.product_description}</td>
-
-                // Set default row structure without image yet
-                row.innerHTML = `
-                    <td>${myrow++}</td>
-                    <td><img src="" id="img-${product.product_id}"></td>
-                    <td>${product.product_name}</td>
-                    <td id="description">${product.product_description}</td>
-                    <td id="bid">${product.product_min} THB</td>
-                    <td class="countdown" data-datetime="${product.product_bid_end_time}"></td>
-                `;
 
                 // Add click event listener to the row
                 row.addEventListener('click', () => {
-                    // Save selected product to session storage
-                    sessionStorage.setItem('selectedProduct', JSON.stringify(product));    
-                    // Redirect to the details page (adjust the URL accordingly)
-                    window.location.href = '/Web/Auction/test.html';
-                });
+                    // Prepare data to send on click
+                    const productData = {
+                        ...product,
+                        highest_bid: bid || 'No bid'
+                    };
 
-                // Append the row to the table body
-                tbody.appendChild(row);
-
-                // Fetch and update the image for the product
-                getPic(product.product_id).then(picLink => {
-                    const imgElement = document.getElementById(`img-${product.product_id}`);
-                    if (picLink) {
-                        imgElement.src = picLink;
-                    } 
-                    else {
-                        imgElement.src = null;
-                    }
+                    // Save product data with image and bid to session storage
+                    sessionStorage.setItem('selectedProduct', JSON.stringify(productData));    
+                    
+                    // Redirect to the details page
+                    window.location.href = '/Web/Auction/Bid/product.html';
                 });
             });
 
-            updateCountdown(); // Initial update
-            setInterval(updateCountdown, 1000); // Update every second
+            // Append the row to the table body
+            tbody.appendChild(row);
+        });
+
+        updateCountdown(); // Initial update
+        setInterval(updateCountdown, 1000); // Update every second
+    })
+    .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+    });
+});
+
+
+// Function to get the highest bid by product ID (returning a Promise)
+function getHighestBid(product_id) {
+    console.log(product_id);
+    return fetch(`http://localhost:8080/bid/highest/${product_id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            return data.bid_price || null; // Return the highest bid if available, or null if no bid
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
+            return null; // Return null on error
         });
-});
+}
 
 // Function to calculate and display time remaining
 function timeRemaining(endDate) {
-    const now = new Date(); // เวลาปัจจุบันในเขตเวลาของผู้ใช้
-    const end = new Date(endDate); // แปลงเวลาจาก UTC ที่รับมา
+    const now = new Date();
+    const end = new Date(endDate);
+    end.setHours(end.getHours() - 7); // Adjust for local timezone
 
-    // เพิ่มเวลา 7 ชั่วโมงสำหรับเวลาประเทศไทย
-    end.setHours(end.getHours() - 7); 
-
-    const timeDiff = end - now; // คำนวณความต่างของเวลา
+    const timeDiff = end - now;
 
     if (timeDiff <= 0) {
         return 'Expired';
@@ -100,26 +119,4 @@ function updateCountdown() {
         const datetime = new Date(cell.getAttribute('data-datetime'));
         cell.textContent = timeRemaining(datetime);
     });
-}
-
-// Function to get picture link by product ID (returning a Promise)
-function getPic(product_id) {
-    return fetch(`http://localhost:8080/pic/product/${product_id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.error) {
-                return ""; // Return empty string if there's an error
-            } else {
-                return data.pic_link; // Return the picture link
-            }
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-            return ""; // Return empty string on error
-        });
 }

@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', function () {
     // ดึงข้อมูลจาก sessionStorage
     const StaffID = sessionStorage.getItem('StaffID');
@@ -18,8 +17,6 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log("Status:", StaffStatus);
     console.log("Username:", StaffUsername);
     console.log("Password:", StaffPassword);
-
-
 });
 
 document.getElementById('piclink').addEventListener('input', function() {
@@ -40,18 +37,34 @@ document.getElementById('piclink').addEventListener('input', function() {
         };
     }
 });
-
-
 document.getElementById('saveButton').addEventListener('click', function() {
     // รับค่าจากฟอร์ม
     var staffID = document.getElementById('staffID').value;
-    var productName = document.getElementById('productName').value;
-    var productDescription = document.getElementById('productDescription').value;
-    var productMin = document.getElementById('productMin').value;
+    var productName = document.getElementById('productName').value.trim();
+    var productDescription = document.getElementById('productDescription').value.trim();
+    var productMin = document.getElementById('productMin').value.trim();
     var productStatus = document.getElementById('productStatus').value;
-    var bidStartTime = document.getElementById('bidStartTime').value;
-    var bidEndTime = document.getElementById('bidEndTime').value;
-    var piclink = document.getElementById('piclink').value;
+    var bidStartTime = document.getElementById('bidStartTime').value.trim();
+    var bidEndTime = document.getElementById('bidEndTime').value.trim();
+    var piclink = document.getElementById('piclink').value.trim();
+
+    // ตรวจสอบค่าของ productMin
+    if (isNaN(productMin) || parseInt(productMin) <= 0) {
+        alert("Product Min must be a number greater than 0.");
+        return;
+    }
+
+    // ตรวจสอบว่าชื่อผลิตภัณฑ์และคำอธิบายเป็น string
+    if (typeof productName !== 'string' || typeof productDescription !== 'string') {
+        alert("Product Name and Product Description must be strings.");
+        return;
+    }
+
+    // ตรวจสอบรูปแบบวันที่
+    if (!isValidDate(bidStartTime) || !isValidDate(bidEndTime)) {
+        alert("Please enter valid date formats for Bid Start Time and Bid End Time (YYYY-MM-DD HH-MM-SS).");
+        return;
+    }
 
     // สร้าง JSON payload เพื่อส่งไปยัง backend
     var productData = {
@@ -61,12 +74,13 @@ document.getElementById('saveButton').addEventListener('click', function() {
         product_min: parseInt(productMin), // แปลงเป็นจำนวนเต็ม
         product_status: productStatus,
         product_bid_start_time: bidStartTime,
-        product_bid_end_time: bidEndTime
+        product_bid_end_time: bidEndTime,
+        product_picture: piclink // เพิ่มลิงก์ภาพเข้าไปใน JSON
     };
 
     // ตรวจสอบว่าข้อมูลในฟอร์มถูกต้องหรือไม่
     if (!productName || !productDescription || !productMin || !bidStartTime || !bidEndTime) {
-        alert("plase enter all fields");
+        alert("Please enter all fields");
         return;
     }
 
@@ -84,10 +98,16 @@ document.getElementById('saveButton').addEventListener('click', function() {
     .then(data => {
         // ตรวจสอบผลลัพธ์การตอบกลับ
         if (data) {
-            createPic(data.product_id, piclink);
             alert('Product created successfully!');
-            
             // สามารถทำการ redirect หรือเคลียร์ฟอร์มหลังจากสร้างสินค้าเสร็จแล้ว
+            document.getElementById('productName').value = '';
+            document.getElementById('productDescription').value = '';
+            document.getElementById('productMin').value = '';
+            document.getElementById('productStatus').value = '';
+            document.getElementById('bidStartTime').value = '';
+            document.getElementById('bidEndTime').value = '';
+            document.getElementById('piclink').value = '';
+            document.getElementById('imagePreview').src = '/source/pic/loading.png'; // reset image preview
         } else {
             alert('Error creating product.');
         }
@@ -98,42 +118,11 @@ document.getElementById('saveButton').addEventListener('click', function() {
     });
 });
 
-function createPic(productID, piclink) {
-    // สร้าง JSON payload เพื่อส่งไปยัง backend
-    var picData = {
-        product_id: parseInt(productID), // แปลงเป็นจำนวนเต็ม
-        pic_link: piclink
-    };
-
-    // ตรวจสอบว่าข้อมูลในฟอร์มถูกต้องหรือไม่
-    if (!productID || !piclink) {
-        alert("invalid input");
-        return;
-    }
-
-    // ส่งคำขอ POST ไปยัง backend
-    fetch('http://localhost:8080/pic/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(picData),
-    })
-    .then(response => response.json())
-    .then(data => {
-        // ตรวจสอบผลลัพธ์การตอบกลับ
-        if (data) {
-            alert('Picture created successfully!');
-            // เคลียร์ฟอร์มหลังจากสร้างรูปเสร็จ
-        } else {
-            alert('Error creating picture.');
-        }
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-        alert('Error creating picture.');
-    });
+// ฟังก์ชันเพื่อตรวจสอบรูปแบบวันที่
+// ฟังก์ชันเพื่อตรวจสอบรูปแบบวันที่
+function isValidDate(dateString) {
+    // รูปแบบที่ใช้สำหรับการตรวจสอบ: YYYY-MM-DD HH:MM:SS
+    const regex = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;
+    return regex.test(dateString);
 }
-
-
 

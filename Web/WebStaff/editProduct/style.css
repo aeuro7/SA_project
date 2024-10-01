@@ -148,8 +148,8 @@ font-family: "SF";
 
 .info-container img {
     margin-right: 100px; /* เพิ่มระยะห่างระหว่างรูปภาพและข้อมูล */
-    width: 400px;
-    height: 400px;
+    max-width: 400px;
+    max-height: 400px;
     border: 1px solid #002657; /* เพิ่มกรอบขนาด 5px สี #002657 */
     border-radius: 10px; /* ทำให้มุมกรอบโค้ง */
     display: block; /* เพื่อความแน่ใจว่าการจัดการทำงานอย่างถูกต้อง */

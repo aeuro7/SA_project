@@ -1,7 +1,7 @@
 document.getElementById('Logout').addEventListener('click', function (event) {
     event.preventDefault();
     sessionStorage.clear();
-    window.location.href = '/Web/Login_customer/login.html';
+    window.location.href = '/Web/Home/home.html';
 });
 
 document.getElementById('MyProfile').addEventListener('click', function (event) {

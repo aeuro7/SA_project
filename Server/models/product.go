@@ -19,4 +19,5 @@ type Product struct {
 	ProductStatus 		string  `json:"product_status"`
 	ProductBidStartTime string  `json:"product_bid_start_time"`
 	ProductBidEndTime   string  `json:"product_bid_end_time"`
+	ProductPicture 		string  `json:"product_picture"`
 }

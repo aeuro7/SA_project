@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>CreateProduct</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <a class="logo"><p id="gomain">SA Project BlueBid ©</p></a>
+        <div class="bx bx-menu" id="menu-icon"></div>
+        <ul class="nav-bar">
+            <li><a class="link" id="Auction">Auction</a></li>
+            <li><a class="link" id="Notification">Notification</a></li>
+            <li><a class="link" id="MyProfile">MyProfile</a></li>
+            <li><a class="link" id="Logout">Logout</a></li>
+        </ul>
+    </header>
+
+    <br><br><br><br>
+
+    <div class="info-container">
+        <img id="imagePreview" src="/source/pic/loading.png" alt="Image Preview">
+        <div class="product-details">
+            <div class="details">
+                <h2 id="productName">Product Name</h2>
+                <h1 id="productId">Product ID:</h1>
+                <p id="productDescription">Product Description</p>
+                <h5 id="startTime">Time End:</h5>
+                <h5 id="endTime">Time End:</h5>
+                <h3 id="startBid">Start bid:</h3>
+                <h4 id="highestBid">Highest Bid:</h4>
+            </div>
+
+            <div class="price">
+                <div class="bid-price">
+                    <h6>BID:</h6>
+                    <input type="text" placeholder="Enter bid. . ." name="Bid">
+                </div>
+            </div>
+
+            <div class="bid-btn">
+                <button class="bid" id="bidButton">Bid</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include the external JavaScript file -->
+    <script src="product.js"></script>
+    <script src="link.js"></script>
+</body>
+
+</html>

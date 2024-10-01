@@ -20,20 +20,15 @@
             <h1><a href="/Web/Home/home.html">SA ©</a></h1>
         </div>        
         
-        <div class="nav-button">
-            <button class="btn login" id = "loginBtn" onclick="login()">Sign In</button>
-            <button class="btn" id = "registerBtn" onclick="register()">Sign Up</button>
-        </div>
-        <div class="nav-menu-btn">
-            <i class='bx bx-menu' onclick="myMenuFunction()"></i>
-        </div>
+        
+
     </nav>
     <div class="form-box">
         <!register>
         <div class="register-container" id="register">
             <div class="top">
-                <span>Have an account ? <a href="#" onclick="login()">Login</a></span>
-                <header>Sign Up</header>
+                <span>Have an account ? <a href="/Web/AuthSystem/Login_staff/login.html">Login</a></span>
+                <header>Sign Up For Staff</header>
 
             </div>
             <div class="two-forms">
@@ -48,7 +43,7 @@
             </div>
             <div class="input-box">
                 <input type="text" class="input-field" placeholder="Phone number" id = "re3">
-                <i class="bx bx-envelope"></i>
+                <i class="bx bx-mobile"></i>
             </div>
             <div class="input-box">
                 <input type="password" class="input-field" placeholder="Password" id = "re4">
@@ -59,32 +54,11 @@
             </div>
 
         </div>
-        <!Login>
-        <div class="login-container" id="login">
-            <div class="top">
-                <span>Don't have an account ? <a href="#" onclick="register()">Register</a></span>
-                <header>Login</header>
-
-            </div>
-            <div class="input-box">
-                <input type="text" class="input-field" placeholder="Username or Email" id = "in1">
-                <i class="bx bx-envelope"></i>
-            </div>
-            <div class="input-box">
-                <input type="password" class="input-field" placeholder="Password" id = "in2">
-                <i class="bx bx-lock-alt"></i>
-            </div>
-            <div class="input-box">
-                <input type="submit" class="submit" value="Login" id="Login_button">
-            </div>
-
-        </div>
     </div>
 
 </div>
 
 <script src="/Web/cookie.js"></script>
-<script src="script_style.js"></script>
 <script src="script_controller.js"></script>
 </body>
 </html>

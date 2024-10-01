@@ -37,23 +37,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // เพิ่ม event listener สำหรับปุ่ม "Edit"
 document.getElementById('editButton').addEventListener('click', function () {
-    var inputs = document.querySelectorAll('#customerInfo input');
-    var isReadonly = inputs[1].hasAttribute('readonly'); // ตรวจสอบ readonly จาก input แรก
+    var nameInput = document.getElementById('customerName');
+    var passwordInput = document.getElementById('customerPassword');
+    var isReadonly = nameInput.hasAttribute('readonly'); // ตรวจสอบ readonly จาก input username
 
-    inputs.forEach(function (input) {
-        // ห้ามแก้ customerID และ customerStatus
-        if (input.id !== 'customerID') {
-            if (isReadonly) {
-                input.removeAttribute('readonly');
-            } else {
-                input.setAttribute('readonly', 'readonly');
-            }
-        }
-    });
-
-    // เปลี่ยนข้อความปุ่มตามสถานะปัจจุบัน
-    this.textContent = isReadonly ? 'Cancel' : 'Edit';
+    // สลับ readonly สำหรับ Username และ Password
+    if (isReadonly) {
+        nameInput.removeAttribute('readonly');
+        passwordInput.removeAttribute('readonly');
+        this.textContent = 'Cancel'; // เปลี่ยนข้อความปุ่มเป็น "Cancel"
+    } else {
+        nameInput.setAttribute('readonly', 'readonly');
+        passwordInput.setAttribute('readonly', 'readonly');
+        this.textContent = 'Edit'; // เปลี่ยนข้อความปุ่มกลับเป็น "Edit"
+    }
 });
+
 
 document.getElementById('saveButton').addEventListener('click', function () {
     var name = document.getElementById('customerName').value;
@@ -66,10 +65,15 @@ document.getElementById('saveButton').addEventListener('click', function () {
         alert('Please enter all fields');
         return;
     }
-    const CustomerIDString = sessionStorage.getItem('CustomerID'); // ดึงค่าจาก sessionStorage
 
-    // หรือใช้ Number()
-    const CustomerID = Number(CustomerIDString); // แปลงเป็นจำนวนเต็มเช่นกัน
+    // Check if password is at least 8 characters long
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return;
+    }
+
+    const CustomerIDString = sessionStorage.getItem('CustomerID'); // ดึงค่าจาก sessionStorage
+    const CustomerID = Number(CustomerIDString); // แปลงเป็นจำนวนเต็ม
     const CustomerStatus = sessionStorage.getItem('CustomerStatus');
 
     // สร้างอ็อบเจ็กต์ JSON
@@ -82,7 +86,6 @@ document.getElementById('saveButton').addEventListener('click', function () {
         customer_password: password
     };
 
-
     fetch(`http://localhost:8080/customer/update/${CustomerID}`, {
         method: 'PUT',
         headers: {
@@ -91,39 +94,29 @@ document.getElementById('saveButton').addEventListener('click', function () {
         body: JSON.stringify(data) // แปลงข้อมูลเป็น JSON
     })
         .then(response => {
-            // ตรวจสอบ Content-Type ของการตอบสนองจากเซิร์ฟเวอร์
             const contentType = response.headers.get('Content-Type');
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
-            // หากเซิร์ฟเวอร์ส่ง JSON ให้ใช้ response.json()
             if (contentType && contentType.includes('application/json')) {
                 return response.json();
             } else {
-                // หากเซิร์ฟเวอร์ส่งข้อความธรรมดา ให้ใช้ response.text()
                 return response.text();
             }
         })
         .then(data => {
-            // แสดงข้อมูลที่ได้รับจากเซิร์ฟเวอร์
             if (typeof data === 'string') {
                 alert(data); // ข้อความธรรมดา
             } else {
                 alert('Update successfully!');
                 console.log(data); // JSON ที่ได้รับ
-                setupCustomer(data)
+                setupCustomer(data);
             }
         })
         .catch(error => {
             console.error('There was a problem with the fetch operation:', error);
             alert('Update failed!');
         });
-
-
-
-    // ส่งคำขอแบบ POST พร้อมข้อมูล JSON
-
 });
-

@@ -1,6 +1,6 @@
 document.getElementById('Logout').addEventListener('click', function (event) {
     sessionStorage.clear();
-    window.location.href = '/Web/Login_staff/login.html';
+    window.location.href = '/Web/Home/home.html';
 })
 document.getElementById('MyProfile').addEventListener('click', function (event) {
     window.location.href = '/Web/WebStaff/StaffProfile/profile.html';   
@@ -12,3 +12,7 @@ document.getElementById('AddProduct').addEventListener('click', function (event)
 document.getElementById('gomain').addEventListener('click', function (event) {
     window.location.href = '/Web/WebStaff/tablestaff/maintable.html';
 })
+
+document.getElementById('backButton').addEventListener('click', function () {
+    window.location.href = '/Web/WebStaff/tablestaff/maintable.html';
+});

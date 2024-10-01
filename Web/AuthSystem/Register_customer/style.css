@@ -32,7 +32,7 @@ body{
     position: fixed;
     top: 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     width: 100%;
     height: 100px;
     line-height: 100px;
@@ -43,7 +43,7 @@ body{
     color: #003f92;
     font-size: 28px;
     font-weight: 600;
-    text-decoration: none; /* ลบเส้นใต้ */
+    text-decoration: none;
 }
 
 .nav-logo:hover {
@@ -69,43 +69,11 @@ body{
     transition: .3s ease-out;
 
 }
-.nav-button .btn{
-    width: 130px;
-    height: 40px;
-    font-weight: 500;
-    background: rgba(255,255,255,);
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s ease;
-}
-
-#registerBtn{
-    margin-left: 15px;
-}
-
-.btn {
-    color: #003f92; /* สีข้อความ */
-    border: none; /* ไม่มีเส้นขอบ */
-    border-radius: 5px; /* ขอบโค้ง */
-    font-size: 16px; /* ขนาดตัวอักษร */
-    padding: 10px 20px; /* ระยะห่างภายในปุ่ม */
-    text-align: center; /* จัดตำแหน่งข้อความ */
-    cursor: pointer; /* เปลี่ยนเคอร์เซอร์เมื่อชี้ไปที่ปุ่ม */
-    transition: background 0.3s ease; /* เอฟเฟกต์การเปลี่ยนแปลงพื้นหลัง */
-}
 
 
-.btn.login{
-    background: rgba(255,255,255,0.7);
-    background: linear-gradient(to right, #002657, #004aad);
-    color: white;  
-}
+
+
    
-
-.nav-menu-btn{
-    display: none;
-}
 .form-box{
     margin-top: -150px;
     position: relative;
@@ -117,17 +85,9 @@ body{
     overflow: hidden;
     z-index: 2;
 }
-.login-container{
-    position: absolute;
-    left: 4px;
-    width: 500px;
-    display: flex;
-    flex-direction: column;
-    transition: .5s ease-in-out;
-}
+
 .register-container{
     position: absolute;
-    right: -520px;
     width: 500px;
     display: flex;
     flex-direction: column;
@@ -147,17 +107,7 @@ body{
     margin-left: 5px;
 }
 
-@keyframes gradient-animation {
-    0% {
-        background-position: 0% 0%;
-    }
-    50% {
-        background-position: 100% 0%;
-    }
-    100% {
-        background-position: 0% 0%;
-    }
-}
+
 
 
 header{
@@ -267,25 +217,8 @@ header{
         flex-direction: column;
         text-align: center;
     }
-    .nav-menu-btn{
-        display: block;
-    }
-    .nav-menu-btn i{
-        font-size: 25px;
-        color: white;
-        padding: 10px;
-        background: #003f92;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: .3s;
-
-    }
-    .nav-menu-btn i:hover{
-        background: #002657;
-
-    }
+    
 }
-
 @media only screen and (max-width:540px){
     .wrapper{
         min-height:100vh;

@@ -35,25 +35,23 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-// เพิ่ม event listener สำหรับปุ่ม "Edit"
 document.getElementById('editButton').addEventListener('click', function () {
-    var inputs = document.querySelectorAll('#staffInfo input');
-    var isReadonly = inputs[1].hasAttribute('readonly'); // ตรวจสอบ readonly จาก input แรก
+    var nameInput = document.getElementById('StaffName');
+    var passwordInput = document.getElementById('StaffPassword');
+    var isReadonly = nameInput.hasAttribute('readonly'); // ตรวจสอบ readonly จาก input username
 
-    inputs.forEach(function (input) {
-        // ห้ามแก้ customerID และ customerStatus
-        if (input.id !== 'StaffID') {
-            if (isReadonly) {
-                input.removeAttribute('readonly');
-            } else {
-                input.setAttribute('readonly', 'readonly');
-            }
-        }
-    });
-
-    // เปลี่ยนข้อความปุ่มตามสถานะปัจจุบัน
-    this.textContent = isReadonly ? 'Cancel' : 'Edit';
+    // สลับ readonly สำหรับ Username และ Password
+    if (isReadonly) {
+        nameInput.removeAttribute('readonly');
+        passwordInput.removeAttribute('readonly');
+        this.textContent = 'Cancel'; // เปลี่ยนข้อความปุ่มเป็น "Cancel"
+    } else {
+        nameInput.setAttribute('readonly', 'readonly');
+        passwordInput.setAttribute('readonly', 'readonly');
+        this.textContent = 'Edit'; // เปลี่ยนข้อความปุ่มกลับเป็น "Edit"
+    }
 });
+
 
 document.getElementById('saveButton').addEventListener('click', function () {
     var name = document.getElementById('StaffName').value;
@@ -66,9 +64,13 @@ document.getElementById('saveButton').addEventListener('click', function () {
         alert('Please enter all fields');
         return;
     }
-    const StaffIDString = sessionStorage.getItem('StaffID'); // ดึงค่าจาก sessionStorage
 
-    // หรือใช้ Number()
+    if (password.length < 8) {
+        alert('Password must be at least 8 characters long.');
+        return;
+    }
+
+    const StaffIDString = sessionStorage.getItem('StaffID'); // ดึงค่าจาก sessionStorage
     const StaffID = Number(StaffIDString); // แปลงเป็นจำนวนเต็มเช่นกัน
     const StaffStatus = sessionStorage.getItem('StaffStatus');
 

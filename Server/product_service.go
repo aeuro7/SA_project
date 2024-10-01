@@ -2,7 +2,6 @@ package main
 
 import (
 	"euro/models"
-	// "fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
@@ -22,9 +21,9 @@ func CreateProduct(c *fiber.Ctx) error {
 	// ใช้คำสั่ง INSERT พร้อม RETURNING เพื่อดึง product_id
 	err := db.QueryRow(`
 		INSERT INTO public.products(
-		staff_id, product_name, product_description, product_min, product_status, product_start, product_end)
-	VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING product_id;`, 
-		p.StaffID, p.ProductName, p.ProductDescription, p.ProductMin, p.ProductStatus, p.ProductBidStartTime, p.ProductBidEndTime).Scan(&productID)
+		staff_id, product_name, product_description, product_min, product_status, product_start, product_end, product_picture)
+	VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING product_id;`, 
+		p.StaffID, p.ProductName, p.ProductDescription, p.ProductMin, p.ProductStatus, p.ProductBidStartTime, p.ProductBidEndTime, p.ProductPicture).Scan(&productID)
 
 	if err != nil {
 		return err
@@ -36,12 +35,13 @@ func CreateProduct(c *fiber.Ctx) error {
 	return c.JSON(p)
 }
 
-
-
 func GetProducts(c *fiber.Ctx) error {
 	products, err := db.Query(`
-		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end
-		FROM public.products order by product_end`)
+		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end, product_picture
+		FROM public.products
+		WHERE product_status IN ('active', 'inactive')
+		ORDER BY product_end;
+		`)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not retrieve products"})
 	}
@@ -59,16 +59,21 @@ func GetProducts(c *fiber.Ctx) error {
 			&p.ProductStatus,
 			&p.ProductBidStartTime,
 			&p.ProductBidEndTime,
+			&p.ProductPicture, // เพิ่มฟิลด์ ProductPicture
 		)
 		response = append(response, p)
 	}
 
 	return c.JSON(response)
 }
+
 func GetProductsActive(c *fiber.Ctx) error {
 	products, err := db.Query(`
-		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end
-		FROM public.products where product_status = 'active' order by product_end`)
+		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end, product_picture
+		FROM public.products 
+		WHERE product_status = 'active' 
+		ORDER BY product_end;
+	`)
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not retrieve products"})
 	}
@@ -86,33 +91,7 @@ func GetProductsActive(c *fiber.Ctx) error {
 			&p.ProductStatus,
 			&p.ProductBidStartTime,
 			&p.ProductBidEndTime,
-		)
-		response = append(response, p)
-	}
-
-	return c.JSON(response)
-}
-func GetProductsinActive(c *fiber.Ctx) error {
-	products, err := db.Query(`
-		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end
-		FROM public.products where product_status = 'inactive'`)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not retrieve products"})
-	}
-	defer products.Close()
-
-	var response []models.Product
-	for products.Next() {
-		var p models.Product
-		products.Scan(
-			&p.ProductID,
-			&p.StaffID,
-			&p.ProductName,
-			&p.ProductDescription,
-			&p.ProductMin,
-			&p.ProductStatus,
-			&p.ProductBidStartTime,
-			&p.ProductBidEndTime,
+			&p.ProductPicture, // เพิ่มฟิลด์ ProductPicture
 		)
 		response = append(response, p)
 	}
@@ -129,7 +108,9 @@ func GetProductByID(c *fiber.Ctx) error {
 	var p models.Product
 
 	err := db.QueryRow(`
-		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end FROM public.products where product_id = $1
+		SELECT product_id, staff_id, product_name, product_description, product_min, product_status, product_start, product_end, product_picture 
+		FROM public.products 
+		WHERE product_id = $1;
 	`, id).Scan(
 		&p.ProductID,
 		&p.StaffID,
@@ -139,6 +120,7 @@ func GetProductByID(c *fiber.Ctx) error {
 		&p.ProductStatus,
 		&p.ProductBidStartTime,
 		&p.ProductBidEndTime,
+		&p.ProductPicture, // เพิ่มฟิลด์ ProductPicture
 	)
 
 	if err != nil {
@@ -147,7 +129,6 @@ func GetProductByID(c *fiber.Ctx) error {
 
 	return c.JSON(p)
 }
-
 
 func UpdateProduct(c *fiber.Ctx) error {
 	id, err1 := strconv.Atoi(c.Params("id"))
@@ -160,12 +141,11 @@ func UpdateProduct(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	
 	_, err1 = db.Exec(`
         UPDATE public.products
-	SET staff_id=$1, product_name=$2, product_description=$3, product_min=$4, product_status=$5, product_start=$6, product_end=$7
-	WHERE product_id = $8;
-    `, p.StaffID ,p.ProductName ,p.ProductDescription,p.ProductMin,p.ProductStatus,p.ProductBidStartTime,p.ProductBidEndTime,id)
+	SET staff_id=$1, product_name=$2, product_description=$3, product_min=$4, product_status=$5, product_start=$6, product_end=$7, product_picture=$8
+	WHERE product_id = $9;
+    `, p.StaffID, p.ProductName, p.ProductDescription, p.ProductMin, p.ProductStatus, p.ProductBidStartTime, p.ProductBidEndTime, p.ProductPicture, id)
 	if err1 != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not update product"})
 	}
@@ -186,11 +166,12 @@ func inActiveProduct(c *fiber.Ctx) error {
 	`, id)
 
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not delete product"})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not update product status"})
 	}
 
 	return c.SendStatus(fiber.StatusOK)
 }
+
 func ActiveProduct(c *fiber.Ctx) error {
 	id, err1 := strconv.Atoi(c.Params("id"))
 	if err1 != nil {
@@ -204,7 +185,7 @@ func ActiveProduct(c *fiber.Ctx) error {
 	`, id)
 
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not delete product"})
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not update product status"})
 	}
 
 	return c.SendStatus(fiber.StatusOK)

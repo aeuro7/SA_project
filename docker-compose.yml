@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:16.4
     container_name: SA_postgres
     environment:
       POSTGRES_DB: mydatabase
@@ -13,6 +13,8 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+    networks:
+      - sa_network
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -25,6 +27,12 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
+    networks:
+      - sa_network
 
 volumes:
   postgres_data:
+
+networks:
+  sa_network:
+    driver: bridge

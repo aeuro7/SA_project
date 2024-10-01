@@ -51,6 +51,7 @@ func main() {
   app.Put("/customer/ban/:username",BanCustomer)
   app.Put("/customer/unban/:username",UnBanCustomer)
   app.Put("/customer/update/:id",UpdateCustomer)
+  app.Post("/customer/login",LoginCustomer)
   
   //staff
   app.Get("/staff/username/:username",GetStaffByusername)
@@ -59,22 +60,17 @@ func main() {
   app.Put("/staff/ban/:username",BanStaff)
   app.Put("/staff/unban/:username",UnBanStaff)
   app.Put("/staff/update/:id",UpdateStaff)
+  app.Post("/staff/login",LoginStaff)
+
 
 
   app.Get("/product/id/:id", GetProductByID)
 	app.Get("/products", GetProducts)
 	app.Get("/products/active", GetProductsActive)
-	app.Get("/products/inactive", GetProductsinActive)
 	app.Post("/product/create", CreateProduct)
 	app.Put("/product/update/:id", UpdateProduct)
 	app.Delete("/product/inactive/:id", inActiveProduct)
 	app.Put("/product/active/:id", ActiveProduct)
-
-  app.Get("/pic/product/:id", GetPic_byProductID)
-  app.Get("/pic/product/all/:id", GetAllPic_byProductID)
-  app.Post("/pic/create", CreatePic)
-  app.Put("/pic/update/:id", UpdatePic)
-  app.Delete("/pic/delete/id/:id", DeletePic)
 
   app.Get("/order/:id", GetOrderByID)
   app.Post("/order/create", CreateOrder)
@@ -84,6 +80,11 @@ func main() {
   app.Post("/receipt/create", CreateReceipt)
   app.Put("/receipt/:id/status/:status", UpdateReceiptStatus)
 	
+
+  app.Post("/bid/attempt", BidAttempt)
+	app.Get("/bid/product/:id", GetBidsByProductID)
+	app.Get("/bid/highest/:id", GetHighestBidByProductID)
+	app.Get("/bid/winner/:id", GetAuctionWinnerByProductID)
 
   
   app.Get("/hi",func(c *fiber.Ctx) error { return c.SendString("hi")})

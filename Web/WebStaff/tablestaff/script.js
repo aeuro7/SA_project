@@ -12,14 +12,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Create a new row
                 const row = document.createElement('tr');
 
-                // Set default row structure without image yet
+                // Set row structure with image from the JSON response, check if image is valid
+                const productPicture = product.product_picture || '/sorce/pic/loading.png'; // Use default if no image
+
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td><img src="" id="img-${product.product_id}"></td>
+                    <td><img src="${productPicture}" id="img-${product.product_id}" alt="${product.product_name}" onerror="this.src='/source/pic/loading.png';"></td>
                     <td>${product.product_name}</td>
                     <td id="description">${product.product_description}</td>
-                    <td id="bid">${product.product_min} THB</td>
-                    <td id="bid">${product.product_status}</td>
+                    <td id="bid-${product.product_id}">Loading...</td>
+                    <td>${product.product_status}</td>
                     <td class="countdown" data-datetime="${product.product_bid_end_time}"></td>
                 `;
 
@@ -28,26 +30,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     // Save selected product to session storage
                     sessionStorage.setItem('selectedProduct', JSON.stringify(product));
                     
-                    // Fetch the picLink and store it in session storage
-                    getPic(product.product_id).then(picLink => {
-                        sessionStorage.setItem('selectedPicLink', picLink);
-                        // Redirect to the details page (adjust the URL accordingly)
-                        window.location.href = `/Web/WebStaff/editProduct/main.html`;
-                    });
+                    // Redirect to the details page (adjust the URL accordingly)
+                    window.location.href = `/Web/WebStaff/editProduct/main.html`;
                 });
 
                 // Append the row to the table body
                 tbody.appendChild(row);
 
-                // Fetch and update the image for the product
-                getPic(product.product_id).then(picLink => {
-                    const imgElement = document.getElementById(`img-${product.product_id}`);
-                    if (picLink) {
-                        imgElement.src = picLink;
-                    } 
-                    else {
-                        imgElement.src = '/sorce/pic/loading.png';  
-                    }
+                // Fetch highest bid
+                getHighestBid(product.product_id).then(bid => {
+                    const bidElement = document.getElementById(`bid-${product.product_id}`);
+                    bidElement.textContent = bid ? `${bid} THB` : 'No bid';
                 });
             });
 
@@ -59,15 +52,31 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 });
 
+// Function to get the highest bid
+function getHighestBid(product_id) {
+    return fetch(`http://localhost:8080/bid/highest/${product_id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => data.bid_price || null) // Return the highest bid if available, or null if no bid
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+            return null; // Return null on error
+        });
+}
+
 // Function to calculate and display time remaining
 function timeRemaining(endDate) {
-    const now = new Date(); // เวลาปัจจุบันในเขตเวลาของผู้ใช้
-    const end = new Date(endDate); // แปลงเวลาจาก UTC ที่รับมา
+    const now = new Date(); // Current time in user's timezone
+    const end = new Date(endDate); // Convert UTC time received
 
-    // เพิ่มเวลา 7 ชั่วโมงสำหรับเวลาประเทศไทย
-    end.setHours(end.getHours() - 7); 
+    // Adjust for Thailand timezone (UTC+7)
+    end.setHours(end.getHours() - 7);
 
-    const timeDiff = end - now; // คำนวณความต่างของเวลา
+    const timeDiff = end - now; // Calculate time difference
 
     if (timeDiff <= 0) {
         return 'Expired';
@@ -89,24 +98,23 @@ function updateCountdown() {
     });
 }
 
-// Function to get picture link by product ID (returning a Promise)
-function getPic(product_id) {
-    return fetch(`http://localhost:8080/pic/product/${product_id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.error) {
-                return ""; // Return empty string if there's an error
-            } else {
-                return data.pic_link; // Return the picture link
-            }
-        })
-        .catch(error => {
-            console.error('There was a problem with the fetch operation:', error);
-            return ""; // Return empty string on error
-        });
-}
+
+document.addEventListener('DOMContentLoaded', function () {
+    // ดึงข้อมูลจาก sessionStorage
+    const StaffID = sessionStorage.getItem('StaffID');
+    const StaffName = sessionStorage.getItem('StaffName');
+    const StaffPhone = sessionStorage.getItem('StaffPhone');
+    const StaffStatus = sessionStorage.getItem('StaffStatus');
+    const StaffUsername = sessionStorage.getItem('StaffUsername');
+    const StaffPassword = sessionStorage.getItem('StaffPassword');
+
+
+    // สำหรับการตรวจสอบข้อมูลใน console
+    console.log("Staff Information in main.js:");
+    console.log("ID:", StaffID);
+    console.log("Name:", StaffName);
+    console.log("Phone:", StaffPhone);
+    console.log("Status:", StaffStatus);
+    console.log("Username:", StaffUsername);
+    console.log("Password:", StaffPassword);
+});
