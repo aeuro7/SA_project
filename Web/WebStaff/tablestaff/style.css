@@ -256,3 +256,68 @@ header{
     cursor: pointer;
     display: none;
 }
+
+/* responsive */
+
+/* Responsive styles for larger screens */
+@media screen and (min-width: 1024px) {
+    .table_body {
+      width: 95%;
+    }
+  }
+  
+  /* Responsive styles for tablets */
+  @media screen and (max-width: 1024px) {
+    body {
+      background-size: cover;
+    }
+  
+    .table_body {
+      width: 90%;
+      font-size: 14px;
+    }
+  
+    td img {
+      width: 150px;
+      height: auto;
+    }
+  
+    header {
+      padding: 10px 3%;
+    }
+  
+    .nav-bar a {
+      font-size: 13px;
+    }
+  }
+  
+  /* Responsive styles for mobile devices */
+  @media screen and (max-width: 768px) {
+    body {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  
+    .table_body {
+      width: 100%;
+      font-size: 12px;
+    }
+  
+    td img {
+      width: 100px;
+    }
+  
+    header {
+      padding: 10px 2%;
+    }
+  
+    .nav-bar a {
+      font-size: 12px;
+      padding: 8px 15px;
+    }
+  
+    .logo img {
+      width: 30px;
+    }
+  }
+  

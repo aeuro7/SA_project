@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     
     // ดึงข้อมูลจาก sessionStorage
     const selectedProduct = JSON.parse(sessionStorage.getItem('selectedProduct'));
-    
+    const selectedPicLink = selectedProduct.product_picture   
     if (selectedProduct) {
         // กำหนดค่าให้กับ input fields
         document.getElementById('productID').value = selectedProduct.product_id;
@@ -92,3 +92,77 @@ async function getHighestBid(product_id) {
         return null; // คืนค่า null ในกรณีมีข้อผิดพลาด
     }
 }
+
+// ฟังก์ชันตรวจสอบรูปแบบวันที่และเวลา: YYYY-MM-DD HH:MM:SS
+// ฟังก์ชันตรวจสอบรูปแบบวันที่และเวลา ทั้งแบบ YYYY-MM-DDTHH:MM:SSZ และ YYYY-MM-DD HH:MM:SS
+function isValidDate(dateString) {
+    const regex1 = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/; // ISO 8601
+    const regex2 = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/;   // แบบมีช่องว่าง
+    return regex1.test(dateString) || regex2.test(dateString);
+}
+
+
+
+async function updateProduct() {
+    // ดึงค่าจาก input fields
+    const productID = parseInt(document.getElementById('productID').value); // แปลงเป็น int
+    const staffID = parseInt(document.getElementById('staffID').value); // email
+    const productName = document.getElementById('productName').value;
+    const productDescription = document.getElementById('productDescription').value;
+    const productMin = parseFloat(document.getElementById('productMin').value); // แปลงเป็น float สำหรับตัวเลขที่อาจมีทศนิยม
+    const productStatus = document.getElementById('productStatus').value;
+    const bidStartTime = document.getElementById('bidStartTime').value;
+    const bidEndTime = document.getElementById('bidEndTime').value;
+    const productPicture = document.getElementById('piclink').value;
+
+    // ตรวจสอบว่า productMin ต้องมากกว่า 0
+    if (productMin <= 0) {
+        alert('Product minimum price must be greater than 0.');
+        return;
+    }
+
+    // ตรวจสอบรูปแบบของวันที่และเวลา
+    if (!isValidDate(bidStartTime) || !isValidDate(bidEndTime)) {
+        alert('Invalid date format. Please use YYYY-MM-DD HH:MM:SS.');
+        return;
+    }
+
+    // สร้างอ็อบเจ็กต์ที่เก็บข้อมูลสำหรับการส่งไปยัง backend
+    const updatedProduct = {
+        staff_id: staffID,
+        product_name: productName,
+        product_description: productDescription,
+        product_min: productMin,
+        product_status: productStatus,
+        product_bid_start_time: bidStartTime,
+        product_bid_end_time: bidEndTime,
+        product_picture: productPicture
+    };
+
+    try {
+        // ทำการส่ง PUT request ไปยัง API เพื่ออัปเดต product
+        const response = await fetch(`http://localhost:8080/product/update/${productID}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedProduct) // แปลงข้อมูลเป็น JSON string
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const result = await response.json();
+        console.log('Product updated successfully:', result);
+
+        // แสดงข้อความแจ้งเตือนว่าการอัปเดตเสร็จสิ้น
+        alert('Product updated successfully!');
+    } catch (error) {
+        console.error('Error updating product:', error);
+        alert('Failed to update product');
+    }
+}
+
+// ผูกฟังก์ชันกับปุ่มเมื่อคลิก
+document.getElementById('saveButton').addEventListener('click', updateProduct);

@@ -243,3 +243,79 @@ font-family: "SF";
     color:white;
     background: linear-gradient(to right, #002657, #004aad);
 }
+
+/* Styles for devices wider than 1024px */
+@media screen and (min-width: 1024px) {
+    .info-container {
+      width: 80%;
+    }
+    
+    .info {
+      width: 50%;
+    }
+    
+    .btn {
+      padding: 7px 100px;
+    }
+  }
+  
+  /* Styles for tablets and medium-sized screens */
+  @media screen and (max-width: 1024px) {
+    .info-container {
+      flex-direction: column;
+      width: 90%;
+    }
+    
+    .info img {
+      max-width: 100%;
+      margin-right: 0;
+      margin-bottom: 20px;
+    }
+    
+    .info {
+      width: 100%;
+      text-align: center;
+    }
+    
+    .btn {
+      padding: 10px 50px;
+      margin: 20px auto 0;
+      display: block;
+    }
+  }
+  
+  /* Styles for mobile devices */
+  @media screen and (max-width: 768px) {
+    header {
+      padding: 10px 2%;
+    }
+    
+    .logo {
+      font-size: 16px;
+    }
+    
+    .nav-bar a {
+      font-size: 12px;
+      padding: 10px;
+    }
+    
+    .info-container {
+      width: 100%;
+      padding: 20px;
+    }
+    
+    .info img {
+      max-width: 80%;
+    }
+    
+    .info input,
+    .info select {
+      width: 100%;
+    }
+    
+    .btn {
+      padding: 7px 50px;
+      width: 100%;
+    }
+  }
+  
