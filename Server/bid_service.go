@@ -6,7 +6,8 @@ import (
 	"euro/models"
 	"euro/utils"
 	"strconv"
-
+	"time"
+	"fmt"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -17,80 +18,130 @@ type BidAttemptRequest struct {
 	Price      int `json:"price" validate:"required"`
 }
 
+
+
 func BidAttempt(c *fiber.Ctx) error {
-	var request BidAttemptRequest
-	if err := c.BodyParser(&request); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-	}
+    var request BidAttemptRequest
+    if err := c.BodyParser(&request); err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+    }
 
-	// Validate request
-	if err := utils.ValidateStruct(request); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
-	}
+    // Validate request
+    if err := utils.ValidateStruct(request); err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
+    }
 
-	// Check if customer exists
-	var customerID int
-	err := db.QueryRow(`
-		SELECT customer_id 
-		FROM public.customer 
-		WHERE customer_id = $1
-	`, request.CustomerID).Scan(&customerID)
-	if errors.Is(err, sql.ErrNoRows) {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Customer not found"})
-	} else if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
+    // Check if customer exists
+    var customerID int
+    err := db.QueryRow(`
+        SELECT customer_id 
+        FROM public.customer 
+        WHERE customer_id = $1
+    `, request.CustomerID).Scan(&customerID)
+    if errors.Is(err, sql.ErrNoRows) {
+        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Customer not found"})
+    } else if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
 
-	// Check if product exists
-	var productInfo models.Product
-	err = db.QueryRow(`
-		SELECT product_id, product_status
-		FROM public.products
-		WHERE product_id = $1
-	`, request.ProductID).Scan(&productInfo.ProductID, &productInfo.ProductStatus)
-	if errors.Is(err, sql.ErrNoRows) {
-		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Product not found"})
-	} else if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
+    // Check if product exists and retrieve end time
+    var productInfo models.Product
+    err = db.QueryRow(`
+        SELECT product_id, product_status, product_end
+        FROM public.products
+        WHERE product_id = $1
+    `, request.ProductID).Scan(&productInfo.ProductID, &productInfo.ProductStatus, &productInfo.ProductBidEndTime)
+    if errors.Is(err, sql.ErrNoRows) {
+        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Product not found"})
+    } else if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
 
-	// Check if product is active
-	if productInfo.ProductStatus != "active" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Product is not active"})
-	}
+    // Parse product_end (string) into a time.Time
+    layout := "2006-01-02T15:04:05Z" // Adjust format based on your data format
+    bidEndTime, err := time.Parse(layout, productInfo.ProductBidEndTime)
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Invalid bid end time format"})
+    }
 
-	// Check if bid price is higher than current highest bid
-	var currentHighestBid sql.NullInt64
-	err = db.QueryRow(`
-		SELECT MAX(bid_price)
-		FROM public.bid
-		WHERE product_id = $1
-	`, request.ProductID).Scan(&currentHighestBid)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
+    // Ensure the bidEndTime is in UTC
+    bidEndTime = bidEndTime.UTC()
 
-	// Handle cases where there are no existing bids (NULL value)
-	if currentHighestBid.Valid {
-		if request.Price <= int(currentHighestBid.Int64) {
-			return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Bid price must be higher than current highest bid"})
-		}
-	}
+    // Check if product is active
+    if productInfo.ProductStatus != "active" {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Product is not active"})
+    }
 
-	// Insert bid into the database
-	_, err = db.Exec(`
-		INSERT INTO public.bid (
-			customer_id, 
-			product_id, 
-			bid_price,
-			bid_date
-		) VALUES ($1, $2, $3, NOW())`, request.CustomerID, request.ProductID, request.Price)
-	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
-	}
+    currentTime := time.Now().UTC() // Get current time in UTC
+    currentTime = currentTime.Add(7 * time.Hour) // Add 7 hours to current time
 
-	return c.SendStatus(fiber.StatusCreated)
+    // Check if current time is after bid end time
+    if currentTime.After(bidEndTime) {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Bidding time has ended"})
+    }
+
+    // Check if there are existing bids
+    var currentHighestBid sql.NullInt64
+    var bidCount int
+    err = db.QueryRow(`
+        SELECT COUNT(*), MAX(bid_price)
+        FROM public.bid
+        WHERE product_id = $1
+    `, request.ProductID).Scan(&bidCount, &currentHighestBid)
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
+
+    // Handle cases where there are no existing bids (set currentHighestBid to 0 if no bids)
+    if bidCount == 0 {
+        currentHighestBid.Int64 = 0 // Set to 0 if no bids
+        currentHighestBid.Valid = true // Mark as valid
+    }
+
+    // Check if the new bid price is higher than the current highest bid
+    if request.Price <= int(currentHighestBid.Int64) {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Bid price must be higher than current highest bid"})
+    }
+
+    // Check if current time is less than bidEndTime by 5 minutes
+    fiveMinutesBeforeEnd := bidEndTime.Add(-5 * time.Minute)
+    fmt.Println("currentTime: ", currentTime)
+    fmt.Println("bidEndTime: ", bidEndTime)
+    fmt.Println("fiveMinutesBeforeEnd: ", fiveMinutesBeforeEnd)
+    if currentTime.After(fiveMinutesBeforeEnd) && currentTime.Before(bidEndTime) {
+        // If within the last 5 minutes, extend the bidding end time
+        newEndTime := bidEndTime.Add(5 * time.Minute)
+        _, err := db.Exec(`
+            UPDATE public.products 
+            SET product_end = $1
+            WHERE product_id = $2
+        `, newEndTime.Format(layout), request.ProductID)
+        if err != nil {
+            return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+        }
+        fmt.Println("Bidding time extended to:", newEndTime) // Debug log
+    }
+
+    // Insert bid into the database
+    _, err = db.Exec(`
+        INSERT INTO public.bid (
+            customer_id, 
+            product_id, 
+            bid_price,
+            bid_date
+        ) VALUES ($1, $2, $3, NOW())`, request.CustomerID, request.ProductID, request.Price)
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": err.Error()})
+    }
+
+    return c.SendStatus(fiber.StatusCreated)
 }
+
+
+
+
+
+
 
 
 func GetBidsByProductID(c *fiber.Ctx) error {
