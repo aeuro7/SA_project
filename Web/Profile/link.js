@@ -15,7 +15,7 @@ document.getElementById('Auction').addEventListener('click', function (event) {
 
 document.getElementById('Notification').addEventListener('click', function (event) {
     event.preventDefault();
-    window.location.href = '/Web/Profile/profile.html';
+    window.location.href = '/Web/OrderCustomer/order.html';
 });
 
 document.getElementById('gomain').addEventListener('click', function (event) {

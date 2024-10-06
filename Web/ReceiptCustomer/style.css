@@ -1,0 +1,314 @@
+@font-face {
+    font-family: 'SF';
+    src: url('/sorce/font/SFPRODISPLAYREGULAR.OTF') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'SF_B';
+    src: url('/sorce/font/SFPRODISPLAYBOLD.OTF') format('opentype');
+    font-weight: normal;
+}
+:root{
+    --main-color:#002657;
+    --second-color:#003f92    ;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    font-family: "SF";
+    
+    scroll-padding-top: 2rem;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    background: url(/sorce/wallpeper/wallpeper4.png) center / cover;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+
+main.table{
+
+    margin: 70px auto 30px auto;
+    width: 95vw;
+    height: 90vh;
+    background-color: #003f9234;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.table_header{
+    width: 100%;
+    height: 7.5%;
+    background-color: #002657;
+    border-radius: 15px;
+    padding: .8rem 1rem;
+    font-family: SF_B;
+    color: white;
+}
+
+.table_body {
+    width: 95%;
+    max-height: calc(89% - .8rem);
+    background-color: #fffb;
+    margin: .8rem auto;
+    border-radius: .6rem;
+    overflow: auto;
+    scrollbar-width: none; /* สำหรับ Firefox */
+}
+
+.table_body::-webkit-scrollbar {
+    display: none; /* สำหรับ Chrome, Safari, และ Opera */
+}
+
+
+
+td img{
+    width: 200px;
+    height: auto;
+    margin: 0 auto;
+    vertical-align: middle;
+    border-radius: 10px;
+}
+
+table, th, td{
+    
+    text-align: center;
+    width: 100%;
+    padding: 1rem;
+    border-collapse: collapse;
+    
+}
+
+
+
+thead th{
+    position: sticky;
+    top: 0;
+    left: 0;
+    background-color: white;
+}
+
+th:nth-child(1), td:nth-child(1) {
+    width: 5%; 
+    text-align: center;
+    padding: 0.5rem;
+}
+th:nth-child(2), td:nth-child(2) {
+    width: 10%; 
+    text-align: center;
+    padding: 1rem;
+}
+th:nth-child(3), td:nth-child(3) {
+    width:10%; 
+    text-align: center;
+    padding: 1rem;
+}
+th:nth-child(4), td:nth-child(4) {
+    width: 10%; 
+    text-align: center;
+    padding: 1rem;
+}
+th:nth-child(5), td:nth-child(5) {
+    width: 10%; 
+    text-align: center;
+    padding: 1rem;
+}
+th:nth-child(6), td:nth-child(6) {
+    width: 10%; 
+    text-align: center;
+    padding: 1rem;
+}
+
+tbody tr:nth-child(even){
+    background-color: #0000000b;
+
+}
+
+tbody tr:hover{
+    background-color: rgba(255, 255, 255, 0.782);
+    transition: background .3s ease;
+    cursor: pointer;
+    
+}
+
+#bid {
+font-family: "SF_B";}
+
+#description {
+    width: 15%; 
+    white-space: normal; 
+
+}
+
+
+
+
+/* nav-bar ----------------------------------------------------------------- */
+
+.logo{
+    font-family: "SF_B";
+    color: #003f92;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+.logo:hover {
+    text-shadow: 0 0 23px rgba(0, 0, 139, 0.5), /* เงาแรก */
+                 0 0 50px rgba(0, 0, 139, 0.2); /* เงาที่สองเพื่อเพิ่มการกระจาย */
+
+}
+
+
+img{
+    width: 120%;
+    margin-left: -120px;
+}
+
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 5% 15px 5%;
+    background:white;
+    box-shadow:0 4px 41px rgb(14 55 54 / 14%);
+    transition: .2s;
+    height: 50px;
+
+    
+
+}
+
+.logo{
+    align-items: center;
+    display: flex;
+    cursor: pointer; /* เปลี่ยน cursor เป็น pointer เมื่อ hover */
+
+}
+.logo img{
+    width: 40px;
+}
+
+.nav-bar{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.nav-bar a{
+    font-size: 15px;
+    padding: 11px 20px;
+    color: var(--second-color);
+    text-transform: uppercase;
+}
+
+.nav-bar:hover{
+    color: var(--main-color);
+
+}
+.nav-bar i{
+    align-items: center;
+    display: flex;
+    font-size: 40px;
+    color: var(--second-color);
+
+}
+
+.bx bx-user-circle{
+    scale: 30%;
+}
+
+.nav-bar ul li{
+    list-style-type: none;
+}
+.nav-bar ul li .link{
+    text-decoration: none;
+    padding-bottom: 15px;
+    color: rgb(255, 237, 237);
+    margin: 25px;
+}
+
+.link:hover, .active{
+    border-bottom: 3px solid #003f92;
+    transition: .2s ease-out;
+}
+#menu-icon{
+    font-size: 14px;
+    z-index: 1001;
+    cursor: pointer;
+    display: none;
+}
+
+.button_section {
+    text-align: center;
+    margin: 20px 0; /* เพิ่มระยะห่างด้านบนและด้านล่างของปุ่ม */
+}
+
+.submit {
+    font-size: 15px;
+    font-weight: 500;
+    color: #003f92;
+    height: 45px;
+    width: 400px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255,255,255,0.7);
+    cursor: pointer;
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    margin: 0 15px; /* เพิ่มระยะห่างซ้ายและขวาให้เท่ากัน */
+}
+
+.submit:hover {
+    background: linear-gradient(to right, #002657, #004aad);
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    color: white;
+}
+
+.button_section {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.submit {
+    font-size: 15px;
+    font-weight: 500;
+    color: #003f92;
+    height: 45px;
+    width: 100px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255,255,255,0.7);
+    cursor: pointer;
+    display: inline-block; /* เพื่อให้ลิงก์ดูเหมือนปุ่ม */
+    text-align: center;
+    line-height: 45px; /* จัดข้อความให้อยู่กลางแนวตั้ง */
+    margin: 0 15px;
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    text-decoration: none; /* เอาเส้นใต้ของลิงก์ออก */
+}
+
+.submit:hover {
+    background: linear-gradient(to right, #002657, #004aad);
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    color: white;
+}
