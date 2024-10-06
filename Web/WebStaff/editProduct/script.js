@@ -166,3 +166,28 @@ async function updateProduct() {
 
 // ผูกฟังก์ชันกับปุ่มเมื่อคลิก
 document.getElementById('saveButton').addEventListener('click', updateProduct);
+
+document.getElementById('order').addEventListener('click', async function() {
+    const bidEndTime = document.getElementById('bidEndTime').value; // ค่าที่ได้จะเป็น "2024-10-07T00:00:00Z"
+    const highestBid = document.getElementById('highest').value;
+
+    const now = new Date(); // Current time in user's timezone
+    const end = new Date(bidEndTime); // Convert UTC time received
+
+    end.setHours(end.getHours() - 7);
+
+    console.log('Current Time:', now); // แสดงเวลาปัจจุบันใน UTC+7
+    console.log('Bid End Time:', end); // แสดงเวลา bidEndDate ที่แปลงแล้ว
+
+    if (now > end) {
+        // ตรวจสอบว่ามีการประมูลหรือไม่
+        if (highestBid && highestBid !== 'No bid') {
+            alert('You have successfully placed an order!');
+            // คุณสามารถเพิ่มโค้ดสำหรับการสร้าง order ที่นี่
+        } else {
+            alert('No bid available to create an order.');
+        }
+    } else {
+        alert('The bidding time has not ended yet.');
+    }
+});
