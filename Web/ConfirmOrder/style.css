@@ -1,0 +1,296 @@
+@font-face {
+    font-family: 'SF';
+    src: url('/sorce/font/SFPRODISPLAYREGULAR.OTF') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'SF_B';
+    src: url('/sorce/font/SFPRODISPLAYBOLD.OTF') format('opentype');
+    font-weight: normal;
+}
+:root{
+    --main-color:#002657;
+    --second-color:#003f92    ;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+    font-family: "SF";
+    
+    scroll-padding-top: 2rem;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+}
+body{
+    min-height: 100vh;
+    display: flex;
+    background: url(/sorce/wallpeper/wallpeper4.png) center / cover;
+    justify-content: center;
+    align-items: center;
+    
+    
+}
+
+.background-square{
+    margin: 70px auto 30px auto;
+    width: 95vw;
+    height: 90vh;
+    background-color: #ffffffb8;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 .4rem .8rem #0005;
+    border-radius: 15px;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+
+}
+
+.back-btn{
+    position: absolute;
+    top: 10px; /* ปรับตำแหน่งจากด้านบน */
+    left: 10px; /* ปรับตำแหน่งจากด้านซ้าย */
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    border: 2px solid var(--second-color);
+    border-radius: 40px;
+    color: var(--second-color);
+    font-weight: 500;
+
+}
+
+.back-btn:hover{
+    color:white;
+    background: var(--main-color);
+}
+h1{
+    margin-bottom: 40px;
+    
+}
+
+.confirm-input{
+    display: flex;
+    flex-direction: row; /* วางให้หัวข้ออยู่บน input */
+    align-items: center;
+    gap: 20px;
+}
+
+.confirm-input h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+
+.confirm-input input {
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    background: white;
+    height: 50px;
+    width: 500px;
+    padding: 0 10px 0 15px;
+    border-radius: 20px;
+    border: 2px solid var(--second-color);
+    transition: .2s ease;
+    color: var(--second-color);
+    
+}
+
+.confirm-input input::placeholder{
+    color: #003f92a8;
+    
+}
+
+.confirm-input button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    border: 2px solid var(--second-color);
+    border-radius: 20px;
+    color: var(--second-color);
+    font-weight: 500;
+    margin-bottom: 10px;
+    margin-right: 30px;
+}
+
+.confirm-input button:hover{
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    background: var(--main-color);
+    color: white;
+}
+
+
+
+
+
+
+
+/* nav-bar ----------------------------------------------------------------- */
+
+.logo{
+    font-family: "SF_B";
+    color: #003f92;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+.logo:hover {
+    text-shadow: 0 0 23px rgba(0, 0, 139, 0.5), /* เงาแรก */
+                 0 0 50px rgba(0, 0, 139, 0.2); /* เงาที่สองเพื่อเพิ่มการกระจาย */
+
+}
+
+
+img{
+    width: 120%;
+    margin-left: -120px;
+}
+
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 5% 15px 5%;
+    background:white;
+    box-shadow:0 4px 41px rgb(14 55 54 / 14%);
+    transition: .2s;
+    height: 50px;
+
+    
+
+}
+
+.logo{
+    align-items: center;
+    display: flex;
+    cursor: pointer; /* เปลี่ยน cursor เป็น pointer เมื่อ hover */
+
+}
+.logo img{
+    width: 40px;
+}
+
+.nav-bar{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.nav-bar a{
+    font-size: 15px;
+    padding: 11px 20px;
+    color: var(--second-color);
+    text-transform: uppercase;
+}
+
+.nav-bar:hover{
+    color: var(--main-color);
+
+}
+.nav-bar i{
+    align-items: center;
+    display: flex;
+    font-size: 40px;
+    color: var(--second-color);
+
+}
+
+.bx bx-user-circle{
+    scale: 30%;
+}
+
+.nav-bar ul li{
+    list-style-type: none;
+}
+.nav-bar ul li .link{
+    text-decoration: none;
+    padding-bottom: 15px;
+    color: rgb(255, 237, 237);
+    margin: 25px;
+}
+
+.link:hover, .active{
+    border-bottom: 3px solid #003f92;
+    transition: .2s ease-out;
+}
+#menu-icon{
+    font-size: 14px;
+    z-index: 1001;
+    cursor: pointer;
+    display: none;
+}
+
+.button_section {
+    text-align: center;
+    margin: 20px 0; /* เพิ่มระยะห่างด้านบนและด้านล่างของปุ่ม */
+}
+
+.submit {
+    font-size: 15px;
+    font-weight: 500;
+    color: #003f92;
+    height: 45px;
+    width: 400px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255,255,255,0.7);
+    cursor: pointer;
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    margin: 0 15px; /* เพิ่มระยะห่างซ้ายและขวาให้เท่ากัน */
+}
+
+.submit:hover {
+    background: linear-gradient(to right, #002657, #004aad);
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    color: white;
+}
+
+.button_section {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.submit {
+    font-size: 15px;
+    font-weight: 500;
+    color: #003f92;
+    height: 45px;
+    width: 100px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255,255,255,0.7);
+    cursor: pointer;
+    display: inline-block; /* เพื่อให้ลิงก์ดูเหมือนปุ่ม */
+    text-align: center;
+    line-height: 45px; /* จัดข้อความให้อยู่กลางแนวตั้ง */
+    margin: 0 15px;
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    text-decoration: none; /* เอาเส้นใต้ของลิงก์ออก */
+}
+
+.submit:hover {
+    background: linear-gradient(to right, #002657, #004aad);
+    box-shadow: 1px 5px 7px 1px rgba(0,0,0,0.2);
+    color: white;
+}
+
