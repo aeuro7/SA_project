@@ -30,13 +30,25 @@ document.addEventListener('DOMContentLoaded', async function () {
             `;
             orderTableBody.appendChild(row);
 
-            // เพิ่ม Event Listener สำหรับแต่ละแถว
-            row.addEventListener('click', function() {
-                // เก็บข้อมูลทั้งก้อนใน sessionStorage
-                sessionStorage.setItem('selectedOrder', JSON.stringify(item));
-                // ไปที่หน้า pay.html
-                window.location.href = '/Web/OrderCustomer/Payment/pay.html';
-            });
+            // ตรวจสอบเวลานับถอยหลัง
+            var now = new Date();
+            var end = new Date(order.order_expire);
+            end.setHours(end.getHours() - 7); // Adjust for UTC+7
+
+            console.log('Current Time:', now); // แสดงเวลาปัจจุบันใน UTC+7
+            console.log('Bid End Time:', end); // แสดงเวลา bidEndDate ที่แปลงแล้ว
+
+            if (now < end) { // ถ้ายังไม่หมดเวลา
+                row.addEventListener('click', function() {
+                    // เก็บข้อมูลทั้งก้อนใน sessionStorage
+                    sessionStorage.setItem('selectedOrder', JSON.stringify(item));
+                    // ไปที่หน้า pay.html
+                    window.location.href = '/Web/OrderCustomer/Payment/pay.html';
+                });
+            } else { // ถ้าหมดเวลา
+                row.style.pointerEvents = 'none'; // ป้องกันไม่ให้คลิกได้
+                row.style.color = 'gray'; // เปลี่ยนสีของแถวเพื่อแสดงว่าไม่สามารถคลิกได้
+            }
         });
 
         updateCountdown(); // อัปเดตเวลานับถอยหลัง
@@ -44,9 +56,9 @@ document.addEventListener('DOMContentLoaded', async function () {
         // ตั้งเวลานับถอยหลังทุกๆ 1 วินาที
         setInterval(updateCountdown, 1000);
     } catch (error) {
+        console.error('Error:', error);
     }
 });
-
 
 function timeRemaining(endDate) {
     const now = new Date();

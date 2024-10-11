@@ -83,6 +83,7 @@ func main() {
 	//receipt
 	app.Post("/receipt/create", CreateReceipt)
 	app.Get("/receipts/customer/:id", GetReceiptByCustomerId)
+	app.Get("/receipts/all", GetAllReceipt)
 	app.Put("/receipts/finish/:id", UpdateReceiptStatus)
 
 

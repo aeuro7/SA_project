@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="with=device-width,initial-scale = 1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auction</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="style.css">
-
 </head>
 <body>
     <header>
@@ -23,35 +22,32 @@
 
     <main class="table">
         <section class="button_section">
-            <section class="button_section">
-                <a href="/Web/WebStaff/OrderCustomer/order.html" class="submit">Order</a>
-                <a href="/Web/WebStaff/ReceiptCustomer/receipt.html" class="submit">Receipt</a>
-            </section>
-            
+            <a href="/Web/WebStaff/OrderCustomer/order.html" class="submit">Order</a>
+            <a href="/Web/WebStaff/ReceiptCustomer/receipt.html" class="submit">Receipt</a>
         </section>
+        
         <section class="table_header">
-            <h1>Your Order</h1>
+            <h1>Your Receipt</h1>
         </section>
         <section class="table_body">
             <table>
                 <thead>
                     <tr>
-                        <th> Order ID </th>
-                        <th> Product Name </th>
-                        <th> Status </th>
-                        <th> Total </th>
-                        <th> Expire</th>
+                        <th>Receipt ID</th>
+                        <th>Order ID</th>
+                        <th>Product ID</th>
+                        <th>Receipt Status</th>
+                        <th>Order Total</th>
                     </tr>
                 </thead>
-                <tbody id="orderTableBody"> <!-- เพิ่ม ID ที่นี่ -->
-                    <!-- ข้อมูลจะถูกเพิ่มที่นี่ -->
+                <tbody id="receiptsTableBody">
+                    <!-- ข้อมูลจะถูกเพิ่มตรงนี้ -->
                 </tbody>
             </table>
         </section>
-        
-
     </main>
+    
     <script src="script.js"></script>
     <script src="link.js"></script>
-
 </body>
+</html>

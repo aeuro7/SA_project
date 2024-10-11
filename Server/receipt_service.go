@@ -206,6 +206,100 @@ func GetReceiptByCustomerId(c *fiber.Ctx) error {
     return c.JSON(response)
 }
 
+func GetAllReceipt(c *fiber.Ctx) error {
+    // Check if receipts exist for the given CustomerID
+    receipts := []models.Receipt{}
+    rows, err := db.Query(`
+        SELECT 
+            receipt_id,
+            order_id,
+            customer_id,
+            product_id,
+            receipt_status
+        FROM receipt
+    `)
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Internal server error"})
+    }
+    defer rows.Close()
+
+    for rows.Next() {
+        receipt := models.Receipt{}
+        if err := rows.Scan(&receipt.ReceiptID, &receipt.OrderID, &receipt.CustomerID, &receipt.ProductID, &receipt.ReceiptStatus); err != nil {
+            return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Error scanning receipt"})
+        }
+        receipts = append(receipts, receipt)
+    }
+
+    if len(receipts) == 0 {
+        return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "No receipts found for the given customer"})
+    }
+
+    var response []GetReceiptByCustomerIdResponse
+    for _, receipt := range receipts {
+        // Get Order Info
+        order := new(models.Order)
+        err = db.QueryRow(`
+            SELECT
+                order_id,
+                order_status,
+                order_total
+            FROM orders
+            WHERE order_id = $1
+        `, receipt.OrderID).Scan(&order.OrderID, &order.OrderStatus, &order.OrderTotal)
+        if err != nil {
+            return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Order not found"})
+        }
+
+        // Get Customer Info
+        customer := new(models.Customer)
+        err = db.QueryRow(`
+            SELECT
+                customer_id,
+                customer_name,
+                customer_phone,
+                customer_status,
+                customer_username,
+                customer_password
+            FROM customer
+            WHERE customer_id = $1
+        `, receipt.CustomerID).Scan(&customer.CustomerID, &customer.CustomerName, &customer.CustomerPhone, &customer.CustomerStatus, &customer.CustomerUsername, &customer.CustomerPassword)
+        if err != nil {
+            return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Customer not found"})
+        }
+
+        // Get Product Info
+        product := new(models.Product)
+        err = db.QueryRow(`
+            SELECT
+                product_id,
+                product_name,
+                product_description,
+                product_min,
+                product_status,
+                product_picture
+            FROM products
+            WHERE product_id = $1
+        `, receipt.ProductID).Scan(&product.ProductID, &product.ProductName, &product.ProductDescription, &product.ProductMin, &product.ProductStatus, &product.ProductPicture)
+        if err != nil {
+            return c.Status(fiber.StatusNotFound).JSON(fiber.Map{"error": "Product not found"})
+        }
+
+        response = append(response, GetReceiptByCustomerIdResponse{
+            ReceiptID:   receipt.ReceiptID,
+            OrderID:     receipt.OrderID,
+            CustomerID:  receipt.CustomerID,
+            ProductID:   receipt.ProductID,
+			ReceiptStatus: receipt.ReceiptStatus,
+            Order:       *order,
+            Customer:    *customer,
+            Product:     *product,
+        })
+    }
+
+    return c.JSON(response)
+}
+
 
 
 func UpdateReceiptStatus(c *fiber.Ctx) error {

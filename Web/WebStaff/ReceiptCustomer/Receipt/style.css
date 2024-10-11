@@ -1,0 +1,218 @@
+@font-face {
+    font-family: 'SF';
+    src: url('/sorce/font/SFPRODISPLAYREGULAR.OTF') format('opentype');
+    font-weight: normal;
+}
+@font-face {
+    font-family: 'SF_B';
+    src: url('/sorce/font/SFPRODISPLAYBOLD.OTF') format('opentype');
+    font-weight: normal;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-padding-top: 2rem;
+    text-decoration: none;
+    list-style: none;
+    scroll-behavior: smooth;
+    font-family: "SF";
+}
+:root{
+    --main-color:#002657;
+    --second-color:#003f92;
+}
+section{
+    padding: 10px 10%;
+}
+
+*::selection{
+    color: white;
+    background: var(--main-color);
+}
+.logo{
+    font-family: "SF_B";
+    color: #003f92;
+    font-size: 20px;
+    font-weight: 500;
+
+}
+
+.logo:hover {
+    text-shadow: 0 0 23px rgba(0, 0, 139, 0.5), /* เงาแรก */
+                 0 0 50px rgba(0, 0, 139, 0.2); /* เงาที่สองเพื่อเพิ่มการกระจาย */
+
+}
+
+header{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 5% 15px 5%;
+    background:white;
+    box-shadow:0 4px 41px rgb(14 55 54 / 14%);
+    transition: .2s;
+    height: 50px;
+
+}
+
+.logo{
+    align-items: center;
+    display: flex;
+    cursor: pointer; /* เปลี่ยน cursor เป็น pointer เมื่อ hover */
+
+}
+
+.logo img{
+    width: 40px;
+}
+
+.nav-bar{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+}
+
+.nav-bar a{
+    font-size: 15px;
+    padding: 11px 20px;
+    color: var(--second-color);
+    text-transform: uppercase;
+}
+
+.nav-bar:hover{
+    color: var(--main-color);
+
+}
+.nav-bar i{
+    align-items: center;
+    display: flex;
+    font-size: 40px;
+    color: var(--second-color);
+
+}
+
+.bx bx-user-circle{
+    scale: 30%;
+}
+
+.nav-bar ul li{
+    list-style-type: none;
+}
+.nav-bar ul li .link{
+    text-decoration: none;
+    padding-bottom: 15px;
+    color: rgb(255, 237, 237);
+    margin: 25px;
+}
+
+.link:hover, .active{
+    border-bottom: 3px solid #003f92;
+    transition: .2s ease-out;
+}
+#menu-icon{
+    font-size: 14px;
+    z-index: 1001;
+    cursor: pointer;
+    display: none;
+}
+
+/* body ----------------------------------------------------------------- */
+
+.info-container {
+    padding-top: 50px;
+    display: flex;
+    justify-content: center; /* จัดตำแหน่งให้อยู่ตรงกลางแนวนอน */
+    align-items: center; /* จัดตำแหน่งให้อยู่ตรงกลางแนวตั้ง */
+    margin: 0 auto; /* จัดตำแหน่งให้อยู่ตรงกลางของหน้าจอ */
+    width: 80%; /* กำหนดความกว้างของคอนเทนเนอร์ตามต้องการ */
+}
+
+
+
+
+.receipt-details{
+    flex-basis: 53%;
+    background: rgb(255, 255, 255);
+    box-shadow: -10px 5px 10px 10px rgba(0, 0, 0, 0.1);
+    padding: 40px 30px 40px 40px;
+    text-align: center;
+    
+}
+.receipt-details .details {
+    margin-bottom: 20px;
+}
+
+.receipt-details .details h1{
+    font-size: 14px;
+    font-weight: 500;
+    color: #3a3b3b93;
+    margin-bottom: 10px;
+}
+.receipt-details .details h2{
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 35px;
+    margin-bottom: 15px;
+    color: #011627;
+}
+.receipt-details .details h3{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 25px;
+    color: #011627;
+}
+.receipt-details .details h3 p{
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #3a3b3b93;
+    margin-left: 10px;
+    display: inline;
+
+}
+
+
+.receipt-details .details p{
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 20px;
+    color: #3a3b3b93;    
+}
+
+
+.back-btn{
+    padding: 0 30px;
+}
+.back-btn .back{
+    width: 30%;
+    
+    padding: 10px;
+    border: 0;
+    outline: 0;
+    color: white;
+    background: var(--second-color);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .4s linear;
+}
+.back-btn .back:hover{
+    background: var(--main-color);
+}
+
+.logoo{
+    font-family: "SF_B";
+    color: #003f92;
+    font-size: 20px;
+    font-weight: 500;
+    justify-content: center;
+
+}
+
