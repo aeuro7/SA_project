@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                if (data.customer_status != "ban") {
+                if (data.customer_status != "Ban") {
                     setupCustomer(data);
                     window.location.href = "/Web/MainPage/main.html";
                 } else if (data.customer_status == "Ban") {

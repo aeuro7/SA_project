@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     console.log(customerID);
 
     try {
-        const response = await fetch(`http://localhost:8080/order/customer/${customerID}`);
+        const response = await fetch(`http://localhost:8080/orders`);
         
         // เช็คสถานะของการตอบกลับ
         if (!response.ok) {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                 // เก็บข้อมูลทั้งก้อนใน sessionStorage
                 sessionStorage.setItem('selectedOrder', JSON.stringify(item));
                 // ไปที่หน้า pay.html
-                window.location.href = '/Web/OrderCustomer/Payment/pay.html';
+                window.location.href = '/Web/WebStaff/OrderCustomer/Payment/pay.html';
             });
         });
 
@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         // ตั้งเวลานับถอยหลังทุกๆ 1 วินาที
         setInterval(updateCountdown, 1000);
     } catch (error) {
+        alert('Failed to fetch orders: ' + error.message);
     }
 });
 

@@ -206,15 +206,18 @@ func UpdateCustomer(c *fiber.Ctx) error {
   }
 
 
-func BanCustomer(c *fiber.Ctx) error {
-	username := c.Params("username")
+  func BanCustomer(c *fiber.Ctx) error {
+    id := c.Params("id")
 
-	// Update product in the database
-	_, err := db.Exec("UPDATE public.customer SET customer_status = $1 WHERE customer_username = $2;", "Ban", username)
-	if err != nil {
-	  return err
-	}
-	return c.SendString(fmt.Sprintf("Ban %s", username))
+    // Update product in the database
+    _, err := db.Exec("UPDATE public.customer SET customer_status = $1 WHERE customer_id = $2;", "Ban", id)
+    if err != nil {
+        return err
+    }
+    // ส่งคืน JSON แทนข้อความธรรมดา
+    return c.JSON(fiber.Map{
+        "message": fmt.Sprintf("User %s has been banned", id),
+    })
 }
 
 func UnBanCustomer(c *fiber.Ctx) error {

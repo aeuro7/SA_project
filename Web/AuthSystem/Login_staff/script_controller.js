@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 return response.json();
             })
             .then(data => {
-                if (data.staff_status != "ban") {
+                if (data.staff_status != "Ban") {
                     setupStaff(data);
                     window.location.href = "/Web/WebStaff/tablestaff/maintable.html";
                 } else if (data.staff_status == "Ban") {

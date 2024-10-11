@@ -48,7 +48,7 @@ func main() {
   app.Get("/customer/username/:username",GetCustomerByusername)
   app.Get("/customer/id/:id",GetCustomerByID)
   app.Post("/customer/create",CreateCustomer) 
-  app.Put("/customer/ban/:username",BanCustomer)
+  app.Put("/customer/ban/:id",BanCustomer)
   app.Put("/customer/unban/:username",UnBanCustomer)
   app.Put("/customer/update/:id",UpdateCustomer)
   app.Post("/customer/login",LoginCustomer)
@@ -72,14 +72,19 @@ func main() {
 	app.Delete("/product/inactive/:id", inActiveProduct)
 	app.Put("/product/active/:id", ActiveProduct)
 
-  app.Get("/order/:id", GetOrderByID)
-  app.Post("/order/create", CreateOrder)
-  app.Put("/order/:id/status/:status", UpdateOrderStatus)
+  
+	//order
+	app.Post("/order/create", CreateOrder)
+	app.Get("/orders", GetOrders)
+	app.Get("/order/customer/:id", GetOrdersByCustomerID)
+	app.Put("/order/update/slip", UpdateOrderSlip)
+	app.Put("/order/update/status", UpdateOrderStatus)
 
-  app.Get("/receipt/:id", GetReceiptByID)
-  app.Post("/receipt/create", CreateReceipt)
-  app.Put("/receipt/:id/status/:status", UpdateReceiptStatus)
-	
+	//receipt
+	app.Post("/receipt/create", CreateReceipt)
+	app.Get("/receipts/customer/:id", GetReceiptByCustomerId)
+	app.Put("/receipts/finish/:id", UpdateReceiptStatus)
+
 
   app.Post("/bid/attempt", BidAttempt)
 	app.Get("/bid/product/:id", GetBidsByProductID)

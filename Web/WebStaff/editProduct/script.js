@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Fetch highest bid and set it
         const highestBid = await getHighestBid(selectedProduct.product_id);
-        document.getElementById('highest').value = highestBid || 'No bid';
+        document.getElementById('highest').value = highestBid.bid_price || 'No bid';
+        document.getElementById('customerID').value = highestBid.customer_id || 'No bid';
 
         // แสดงภาพ
         var imagePreview = document.getElementById('imagePreview');
@@ -86,7 +87,7 @@ async function getHighestBid(product_id) {
             throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        return data.bid_price || null; // คืนค่าราคาประมูลสูงสุดหากมี หรือ null หากไม่มี
+        return data || null; // คืนค่าราคาประมูลสูงสุดหากมี หรือ null หากไม่มี
     } catch (error) {
         console.error('There was a problem with the fetch operation:', error);
         return null; // คืนค่า null ในกรณีมีข้อผิดพลาด
@@ -174,16 +175,44 @@ document.getElementById('order').addEventListener('click', async function() {
     const now = new Date(); // Current time in user's timezone
     const end = new Date(bidEndTime); // Convert UTC time received
 
-    end.setHours(end.getHours() - 7);
+    end.setHours(end.getHours() - 7); // Adjust for UTC+7
 
     console.log('Current Time:', now); // แสดงเวลาปัจจุบันใน UTC+7
     console.log('Bid End Time:', end); // แสดงเวลา bidEndDate ที่แปลงแล้ว
 
+    const createOrderRequest = {
+        product_id: parseInt(document.getElementById('productID').value)
+    };
+
     if (now > end) {
         // ตรวจสอบว่ามีการประมูลหรือไม่
         if (highestBid && highestBid !== 'No bid') {
-            alert('You have successfully placed an order!');
-            // คุณสามารถเพิ่มโค้ดสำหรับการสร้าง order ที่นี่
+
+            // สร้าง object สำหรับการส่งข้อมูลไปยังเซิร์ฟเวอร์
+            
+
+            try {
+                const response = await fetch('http://localhost:8080/order/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(createOrderRequest)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+
+                const data = await response.json();
+                console.log(data); // แสดงข้อมูลที่ได้จากเซิร์ฟเวอร์
+                alert(`Order created successfully: ${JSON.stringify(data)}`); // แสดงข้อความเมื่อสร้าง order สำเร็จ
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred while creating the order: ' + error.message); // แจ้งเตือนเมื่อเกิดข้อผิดพลาด
+            }
+
         } else {
             alert('No bid available to create an order.');
         }
