@@ -86,6 +86,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const result = await response.json();
             console.log(result);
             alert('Order slip updated successfully');
+            document.getElementById('piclink').readOnly = true; // ทำให้ช่อง piclink เป็น readonly
+            button = document.querySelector('.btn');
+            button.disabled = true; // ปิดการใช้งานปุ่ม
+
         } catch (error) {
             alert('Failed to update order slip: ' + error.message);
         }
