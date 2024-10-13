@@ -29,24 +29,43 @@ func CreateOrder(c *fiber.Ctx) error {
 		})
 	}
 
-
-	// Get product price
+	// Get product price and customer ID of the highest bidder
 	var CustomerID int
 	var MaxBidPrice int
 	err := db.QueryRow(`
-    SELECT customer_id, MAX(bid_price)
-    FROM bid
-    WHERE product_id = $1
-    GROUP BY customer_id
-    ORDER BY MAX(bid_price) DESC
-    LIMIT 1
-`, CreateOrderRequest.ProductID).Scan(&CustomerID, &MaxBidPrice)
+		SELECT customer_id, MAX(bid_price)
+		FROM bid
+		WHERE product_id = $1
+		GROUP BY customer_id
+		ORDER BY MAX(bid_price) DESC
+		LIMIT 1
+	`, CreateOrderRequest.ProductID).Scan(&CustomerID, &MaxBidPrice)
 
-if err != nil {
-    return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-        "message": "Internal server error",
-    })
-}
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+
+	// Check if order already exists for this customer and product
+	var existingOrderCount int
+	err = db.QueryRow(`
+		SELECT COUNT(*)
+		FROM orders
+		WHERE customer_id = $1 AND product_id = $2
+	`, CustomerID, CreateOrderRequest.ProductID).Scan(&existingOrderCount)
+
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"message": "Internal server error",
+		})
+	}
+
+	if existingOrderCount > 0 {
+		return c.Status(fiber.StatusConflict).JSON(fiber.Map{
+			"message": "Order already exists for this customer and product",
+		})
+	}
 
 	// Create order
 	newOrder := models.Order{
@@ -75,6 +94,7 @@ if err != nil {
 		"data":    newOrder,
 	})
 }
+
 
 // Get all orders
 func GetOrders(c *fiber.Ctx) error {

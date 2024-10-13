@@ -68,6 +68,11 @@ async function banUser() {
 
 // Function to confirm slip
 async function confirmSlip() {
+    const orderSlip = document.getElementById('piclink').value.trim();
+    if (!orderSlip) {
+        alert('Please provide an order slip.');
+        return; // ถ้า orderSlip เป็น null หรือว่าง ให้หยุดการทำงาน
+    }
     const orderID = parseInt(document.getElementById('orderID').value, 10); // แปลงเป็น number
     const customerID = parseInt(document.getElementById('customerID').value, 10); // แปลงเป็น number
     const productID = parseInt(document.getElementById('productID').value, 10); // แปลงเป็น number

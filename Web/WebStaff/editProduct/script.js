@@ -206,11 +206,11 @@ document.getElementById('order').addEventListener('click', async function() {
 
                 const data = await response.json();
                 console.log(data); // แสดงข้อมูลที่ได้จากเซิร์ฟเวอร์
-                alert(`Order created successfully: ${JSON.stringify(data)}`); // แสดงข้อความเมื่อสร้าง order สำเร็จ
+                alert(`Order created successfully`); // แสดงข้อความเมื่อสร้าง order สำเร็จ
 
             } catch (error) {
                 console.error('Error:', error);
-                alert('An error occurred while creating the order: ' + error.message); // แจ้งเตือนเมื่อเกิดข้อผิดพลาด
+                alert('An error occurred while creating the order: ' + error); // แจ้งเตือนเมื่อเกิดข้อผิดพลาด
             }
 
         } else {

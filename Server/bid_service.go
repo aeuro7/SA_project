@@ -85,7 +85,7 @@ func BidAttempt(c *fiber.Ctx) error {
     var bidCount int
     err = db.QueryRow(`
         SELECT COUNT(*), MAX(bid_price)
-        FROM public.bid
+        FROM public.bid 
         WHERE product_id = $1
     `, request.ProductID).Scan(&bidCount, &currentHighestBid)
     if err != nil {
