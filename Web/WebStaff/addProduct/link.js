@@ -19,3 +19,10 @@ document.getElementById('backButton').addEventListener('click', function () {
 document.getElementById('Order').addEventListener('click', function () {
     window.location.href = '/Web/WebStaff/OrderCustomer/order.html';
 });
+
+document.getElementById('Register').addEventListener('click', function () {
+    window.location.href = '/Web/AuthSystem/Register_staff/register.html';
+});
+document.getElementById('Confirm').addEventListener('click', function () {
+    window.location.href = '/Web/WebStaff/ConfirmReceipt/confirm.html';
+});

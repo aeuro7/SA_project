@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         // ตั้งเวลานับถอยหลังทุกๆ 1 วินาที
         setInterval(updateCountdown, 1000);
     } catch (error) {
-        alert('Failed to fetch orders: ' + error.message);
+        console.error('Failed to fetch orders: ' + error.message);
     }
 });
 
