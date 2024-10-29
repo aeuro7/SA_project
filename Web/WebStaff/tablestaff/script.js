@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <td>${index + 1}</td>
                     <td><img src="${productPicture}" id="img-${product.product_id}" alt="${product.product_name}" onerror="this.src='/source/pic/loading.png';"></td>
                     <td>${product.product_name}</td>
-                    <td id="description">${product.product_description}</td>
+                    <td id="description">${product.product_min}</td>
                     <td id="bid-${product.product_id}">Loading...</td>
                     <td>${product.product_status}</td>
                     <td class="countdown" data-datetime="${product.product_bid_end_time}"></td>

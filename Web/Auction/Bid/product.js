@@ -54,16 +54,23 @@ document.addEventListener('DOMContentLoaded', async function () {
             alert('Please enter a valid number for the bid.');
             return;
         }
-
+        // Check if the bid is lower than the minimum
         if (bidPrice < minBid) {
             alert(`Your bid is lower than the starting bid of ${minBid} THB.`);
             return;
         }
-
+        // Check if the bid is higher than the highest bid
         if (bidPrice <= highestBidValue) {
             alert(`Your bid is not higher than the highest bid of ${highestBidValue} THB.`);
             return;
         }
+
+        // Check if the bid is in increments of 100
+        if ((bidPrice - minBid) % 100 !== 0) {
+            alert('Your bid must be in increments of 100 THB.');
+            return;
+        }
+
 
         // Prepare the POST request body
         const requestBody = {

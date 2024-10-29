@@ -6,7 +6,7 @@ document.getElementById('Logout').addEventListener('click', function (event) {
 
 document.getElementById('MyProfile').addEventListener('click', function (event) {
     event.preventDefault();
-    window.location.href = '/Web/Profile/profile.html';
+    window.location.href = '/Web/WebStaff/StaffProfile/profile.html';
 });
 
 document.getElementById('AddProduct').addEventListener('click', function (event) {

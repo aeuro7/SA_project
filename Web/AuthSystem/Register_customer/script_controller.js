@@ -25,6 +25,18 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
+        if (!username.trim()) {
+            alert('Please enter a username.');
+            return;
+        }
+        
+        if (username.includes(' ')) {
+            alert('Username cannot contain spaces.');
+            return;
+        }
+        
+
+
         // สร้างอ็อบเจ็กต์ JSON
         var data = {
             customer_name: name,
