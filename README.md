@@ -69,21 +69,23 @@
 ### การใช้งาน Frontend  
 1. เปิดไฟล์ HTML home.html หลักในโฟลเดอร์ `frontend` ผ่านเบราว์เซอร์  
 
+---
+
 # BlueBid Website: Online Auction Platform
 
----
+
 
 ## Overview  
 BlueBid is an **online auction system** that allows administrators to manage products and auctions, while customers can participate in bidding. This platform is developed using:  
 
----
+
 
 ## Features  
 
 - **Frontend**: Built with HTML and CSS (no frameworks used)  
 - **Backend**: Developed with Golang using the Fiber framework, connected to a PostgreSQL database  
 
----
+
 
 ### Features for Admin:  
 1. **Add Products**: Admins can add products for auction.  
@@ -92,7 +94,7 @@ BlueBid is an **online auction system** that allows administrators to manage pro
 4. **Verify Payments**: Check and confirm customer payments through payment slips.  
 5. **Update Stock**: Admins can update the stock status once customers collect their items or when items are delivered.  
 
----
+
 
 ### Features for Customers:  
 1. **Register**: Customers can create an account to use the system.  
@@ -101,20 +103,20 @@ BlueBid is an **online auction system** that allows administrators to manage pro
    - The auction will extend by an additional 5 minutes if there are bids in the last 5 minutes.  
 4. **View Orders**: Check orders after winning an auction.  
 
----
+
 
 ## System Architecture  
 
 ### Frontend  
 - Built using HTML and CSS for a simple, user-friendly interface.  
 
----
+
 
 ### Backend  
 - Developed using Go with the Fiber framework to manage APIs and backend processing.  
 - Connected to a PostgreSQL database for storing product, customer, auction, and payment information.  
 
----
+
 
 ### Database  
 PostgreSQL is used to store various data, including:  
@@ -123,11 +125,11 @@ PostgreSQL is used to store various data, including:
 - Auction details  
 - Orders  
 
----
+
 
 ## Installation and Usage  
 
----
+
 
 ### Backend Installation  
 1. Install Go and PostgreSQL.  
@@ -149,9 +151,8 @@ PostgreSQL is used to store various data, including:
    go run main.go
    ```  
 
----
+
 
 ### Frontend Usage  
 1. Open the `home.html` file in the `frontend` folder using a web browser.  
 
----
