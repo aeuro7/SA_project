@@ -3,6 +3,12 @@
 ## ภาพรวม  
 โครงการนี้เป็น **ระบบประมูลสินค้าออนไลน์** ที่ให้แอดมินจัดการสินค้าและการประมูล และลูกค้าสามารถเข้าร่วมการประมูลสินค้าได้ โดยระบบนี้มีการพัฒนา:  
 
+
+![Home](/sorce/usecase/home.png)
+![List](/sorce/usecase/auction.png)
+![Auction](/sorce/usecase/auction2.png)
+
+
 - **Frontend**: ใช้ HTML และ CSS (ไม่ใช้ Framework ใดๆ)  
 - **Backend**: ใช้ Golang พร้อม Fiber Framework เชื่อมต่อกับฐานข้อมูล PostgreSQL  
 
@@ -62,5 +68,3 @@
 ### การใช้งาน Frontend  
 1. เปิดไฟล์ HTML home.html หลักในโฟลเดอร์ `frontend` ผ่านเบราว์เซอร์  
 
-
-![คำอธิบายรูปภาพ](/sorce/wallpeper/wallpeper4.png)
