@@ -76,10 +76,6 @@
 ## Overview  
 BlueBid is an **online auction system** that allows administrators to manage products and auctions, while customers can participate in bidding. This platform is developed using:  
 
-![Home](/sorce/usecase/home.png)  
-![List](/sorce/usecase/auction.png)  
-![Auction](/sorce/usecase/auction2.png)  
-
 ---
 
 ## Features  
