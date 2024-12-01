@@ -62,7 +62,3 @@
 ### การใช้งาน Frontend  
 1. เปิดไฟล์ HTML home.html หลักในโฟลเดอร์ `frontend` ผ่านเบราว์เซอร์  
 
-### Doc
-- [User Guide](./Doc/README.md)
-
-
